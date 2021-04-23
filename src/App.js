@@ -1,28 +1,23 @@
-import logo from "./logo.svg";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
+import { Store } from "./states/App";
+import { theme } from "./themes/theme";
+import { Nav } from "./layout/Nav/Nav";
+import { AppSwitch } from "./switch/Switch";
 
 function App() {
-  return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    </BrowserRouter>
-  );
+    return (
+        <Store>
+            <ThemeProvider theme={theme}>
+                <Router>
+                    <Nav />
+                    <AppSwitch />
+                </Router>
+            </ThemeProvider>
+        </Store>
+    );
 }
 
 export default App;
