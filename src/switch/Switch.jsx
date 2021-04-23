@@ -7,7 +7,6 @@ export const AppSwitch = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/login" component={Login} />
       <PrivateRoute exact path="/private" component="" />
     </Switch>
   );
