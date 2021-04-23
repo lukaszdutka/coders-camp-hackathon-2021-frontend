@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, AppBar, Toolbar, Typography } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { AppContext } from "../Context";
 
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export const Nav = () => {
     const { token } = useContext(AppContext);
     const classes = useStyles();
+    const matches = useMediaQuery("(min-width:600px)");
 
     return (
         <div className={classes.rootNav}>
@@ -29,13 +31,13 @@ export const Nav = () => {
                 <Toolbar>
                     <AssignmentIcon />
                     <Typography className={classes.titleNav} variant="h6">
-                        Memoriam
+                        Questio
                     </Typography>
-                    <Typography variant="h6" className={classes.welcomeTitle}>
-                        Welcome Łukasz!
+                    <Typography variant="h6" noWrap className={classes.welcomeTitle}>
+                        Łukasz
                     </Typography>
                     <Button variant="contained" color="primary" startIcon={<ExitToAppIcon />}>
-                        Log out
+                        {matches && "Log out"}
                     </Button>
                 </Toolbar>
             </AppBar>
