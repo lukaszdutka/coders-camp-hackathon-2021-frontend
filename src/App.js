@@ -2,7 +2,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import "./App.css";
-import { Store } from "./states/App";
+import { Store } from "./Context";
 import { theme } from "./themes/theme";
 import { Nav } from "./layout/Nav/Nav";
 import { AppSwitch } from "./switch/Switch";

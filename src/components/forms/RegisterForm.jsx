@@ -1,16 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FormGroup, Button, CircularProgress } from "@material-ui/core";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import { EmailInput, PasswordInput } from "../inputs";
-import { AppContext } from "../../Context";
 import { Server } from "../../api/server";
+import { UsernameInput } from "../inputs/usernameInput/name";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
     const history = useHistory();
-    const { setNewToken, setNewProfile } = useContext(AppContext);
     const [formError, setFormError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -25,12 +24,13 @@ export const LoginForm = () => {
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
                 "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
             ),
+        name: yup.string("Enter your name").required("Name is required"),
     });
 
     const onSubmit = async (values, { setSubmitting }) => {
         setFormError("");
         if (!loading) setLoading(() => true);
-        const result = await Server.login(values);
+        const result = await Server.register(values);
 
         if (result.error) {
             if (result.statusCode === 401) {
@@ -40,9 +40,6 @@ export const LoginForm = () => {
             }
             setSubmitting(false);
         } else {
-            setNewProfile(result.profile);
-            setNewToken(result.token);
-
             setSubmitting(false);
             history.push("/");
         }
@@ -56,8 +53,15 @@ export const LoginForm = () => {
     });
 
     return (
-        <form className="login" onSubmit={formik.handleSubmit}>
+        <form className="register" onSubmit={formik.handleSubmit}>
             <FormGroup>
+                <UsernameInput
+                    errors={formik.errors.name}
+                    id="name"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                />
                 <EmailInput
                     errors={formik.errors.email}
                     id="email"
@@ -75,7 +79,7 @@ export const LoginForm = () => {
                 <div id="formError">{formError}</div>
                 <div>
                     <Button variant="outlined" color="primary" type="submit" disabled={formik.isSubmitting}>
-                        Login
+                        Register
                     </Button>
                     {loading && <CircularProgress size={24} />}
                 </div>
