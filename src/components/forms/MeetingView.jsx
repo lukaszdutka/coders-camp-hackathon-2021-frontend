@@ -1,19 +1,8 @@
 import "../../App.css";
-import {
-    Container,
-    IconButton,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    makeStyles,
-    Typography,
-} from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import { Container, List, ListItem, makeStyles, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { QuestionListItem } from "../inputs";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 export const MeetingView = ({ roomId }) => {
     const classes = useStyles();
     const [questions, setQuestions] = useState([]);
-    const [timeLeft, setTimeLeft] = useState(120);
 
     useEffect(() => {
         setQuestions(getQuestionsByRoomId(roomId));
@@ -84,19 +72,11 @@ export const MeetingView = ({ roomId }) => {
         }
         return questions.map((question) => {
             return (
-                <ListItem key={question.id} button onClick={() => onItemClicked(question.id)}>
-                    <ListItemIcon>
-                        <QuestionAnswerIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={`${question.text}`} />
-                    {/*{question.shouldShowProgresBar && <FixedTimeProgressBar onFinish={() => doOnFinish(question.id)} />}*/}
-                    {timeLeft}
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete" onClick={() => onItemClicked(question.id)}>
-                            <SendIcon />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
+                <QuestionListItem
+                    key={question.id}
+                    question={question}
+                    onItemClicked={() => console.log("clicked :)")}
+                />
             );
         });
     };
