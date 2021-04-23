@@ -7,8 +7,9 @@ import { useFormik } from "formik";
 import { EmailInput, PasswordInput } from "../inputs";
 import { AppContext } from "../../states/App";
 import { Server } from "../../api/server";
+import { UsernameInput } from "../inputs/usernameInput/name";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
     const history = useHistory();
     const storeContext = useContext(AppContext);
     const [formError, setFormError] = useState("");
@@ -25,12 +26,13 @@ export const LoginForm = () => {
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
                 "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
             ),
+        name: yup.string("Enter your name").required("Name is required"),
     });
 
     const onSubmit = async (values, { setSubmitting }) => {
         setFormError("");
         if (!loading) setLoading(() => true);
-        const result = await Server.login(values);
+        const result = await Server.register(values);
 
         if (result.error) {
             if (result.statusCode === 401) {
@@ -54,8 +56,15 @@ export const LoginForm = () => {
     });
 
     return (
-        <form className="login" onSubmit={formik.handleSubmit}>
+        <form className="register" onSubmit={formik.handleSubmit}>
             <FormGroup>
+                <UsernameInput
+                    errors={formik.errors.name}
+                    id="name"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                />
                 <EmailInput
                     errors={formik.errors.email}
                     id="email"
@@ -73,7 +82,7 @@ export const LoginForm = () => {
                 <div id="formError">{formError}</div>
                 <div>
                     <Button variant="outlined" color="primary" type="submit" disabled={formik.isSubmitting}>
-                        Login
+                        Register
                     </Button>
                     {loading && <CircularProgress size={24} />}
                 </div>
