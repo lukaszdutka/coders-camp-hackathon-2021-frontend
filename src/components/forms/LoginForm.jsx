@@ -5,12 +5,12 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import { EmailInput, PasswordInput } from "../inputs";
-import { AppContext } from "../../states/App";
+import { AppContext } from "../../Context";
 import { Server } from "../../api/server";
 
 export const LoginForm = () => {
     const history = useHistory();
-    const storeContext = useContext(AppContext);
+    const { setNewToken, setNewProfile } = useContext(AppContext);
     const [formError, setFormError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -22,7 +22,7 @@ export const LoginForm = () => {
             .min(8, "Password should be of minimum 8 characters length")
             .max(20, "Password can't be longer than 20 characters.")
             .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
                 "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
             ),
     });
@@ -40,7 +40,9 @@ export const LoginForm = () => {
             }
             setSubmitting(false);
         } else {
-            console.log(result);
+            setNewProfile(result.profile);
+            setNewToken(result.token);
+
             setSubmitting(false);
             history.push("/");
         }

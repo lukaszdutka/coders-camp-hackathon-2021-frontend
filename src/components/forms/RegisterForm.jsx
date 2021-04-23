@@ -1,17 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FormGroup, Button, CircularProgress } from "@material-ui/core";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import { EmailInput, PasswordInput } from "../inputs";
-import { AppContext } from "../../states/App";
 import { Server } from "../../api/server";
 import { UsernameInput } from "../inputs/usernameInput/name";
 
 export const RegisterForm = () => {
     const history = useHistory();
-    const storeContext = useContext(AppContext);
     const [formError, setFormError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -23,7 +21,7 @@ export const RegisterForm = () => {
             .min(8, "Password should be of minimum 8 characters length")
             .max(20, "Password can't be longer than 20 characters.")
             .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
                 "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
             ),
         name: yup.string("Enter your name").required("Name is required"),
@@ -42,7 +40,6 @@ export const RegisterForm = () => {
             }
             setSubmitting(false);
         } else {
-            console.log(result);
             setSubmitting(false);
             history.push("/");
         }

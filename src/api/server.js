@@ -15,7 +15,7 @@ export class Server {
 
             if (!response.ok) loginBody.error = true;
 
-            return { accessToken: loginBody.token, profile: loginBody.user };
+            return { token: loginBody.token, profile: loginBody.user };
         } catch (error) {
             Server.handleError(error);
         }
