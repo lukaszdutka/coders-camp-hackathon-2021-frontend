@@ -1,18 +1,12 @@
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
-const initialState = {};
-
-export const AppContext = createContext(initialState);
+export const AppContext = createContext();
 
 export const Store = ({ children }) => {
-  const [state, setState] = useState(initialState);
+  const [isLogged, setIsLogged] = useState(false);
 
-  function changingPartOfState(newValue) {
-    setState({ ...state, newValue });
-  }
-
-  return <AppContext.Provider value={{ state, changingPartOfState }}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{ isLogged, setIsLogged }}>{children}</AppContext.Provider>;
 };
 
 Store.propTypes = {
