@@ -3,7 +3,6 @@ export class Server {
 
     static async login(values) {
         try {
-            console.log(values);
             const response = await fetch(Server.apiUrl + "/users/login", {
                 method: "POST",
                 mode: "cors",
@@ -16,7 +15,7 @@ export class Server {
 
             if (!response.ok) loginBody.error = true;
 
-            return { accessToken: loginBody.access_token };
+            return { token: loginBody.token, profile: loginBody.user };
         } catch (error) {
             Server.handleError(error);
         }

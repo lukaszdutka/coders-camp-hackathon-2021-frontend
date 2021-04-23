@@ -14,7 +14,6 @@ import SendIcon from "@material-ui/icons/Send";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {FixedTimeProgressBar} from "./FixedTimeProgressBar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 export const MeetingView = ({ roomId }) => {
     const classes = useStyles();
     const [questions, setQuestions] = useState([]);
+    const [timeLeft, setTimeLeft] = useState(120);
 
     useEffect(() => {
         setQuestions(getQuestionsByRoomId(roomId));
@@ -63,9 +63,19 @@ export const MeetingView = ({ roomId }) => {
         }, 10000);
     };
 
+    const doOnFinish = (questionId) => {
+        console.log(`Finished ${questionId}`);
+    };
+
     const onItemClicked = (questionId) => {
-        console.log(`Question asked clicked: ${questionId}`);
-        setQuestionAsAsked(questionId);
+        const newQuestions = questions.map((q) => {
+            if (q.id === questionId) {
+                return { ...q, shouldShowProgresBar: true };
+            } else {
+                return q;
+            }
+        });
+        setQuestions(newQuestions);
     };
 
     const listItems = () => {
@@ -79,7 +89,8 @@ export const MeetingView = ({ roomId }) => {
                         <QuestionAnswerIcon />
                     </ListItemIcon>
                     <ListItemText primary={`${question.text}`} />
-                    <FixedTimeProgressBar time={10}/>
+                    {/*{question.shouldShowProgresBar && <FixedTimeProgressBar onFinish={() => doOnFinish(question.id)} />}*/}
+                    {timeLeft}
                     <ListItemSecondaryAction>
                         <IconButton edge="end" aria-label="delete" onClick={() => onItemClicked(question.id)}>
                             <SendIcon />
