@@ -1,13 +1,22 @@
-import { Route, Switch } from 'react-router-dom';
-import { Home } from '../views/home/Home';
-import { Login } from '../views/login/Login';
-import PrivateRoute from './PrivateRoute';
+import { Route, Switch } from "react-router-dom";
+import { Home } from "../views/home/Home";
+import PrivateRoute from "./PrivateRoute";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  rootMain: {
+    flexGrow: 1
+  }
+}));
 
 export const AppSwitch = () => {
-  return (
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <PrivateRoute exact path="/private" component="" />
-    </Switch>
-  );
+  const classes = useStyles();
+    return (
+        <main className={classes.rootMain}>
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <PrivateRoute exact path="/private" component="" />
+            </Switch>
+        </main>
+    );
 };

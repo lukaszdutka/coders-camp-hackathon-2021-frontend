@@ -29,7 +29,7 @@ export const Nav = () => {
                 <Toolbar>
                     <AssignmentIcon />
                     <Typography className={classes.titleNav} variant="h6">
-                        MEMORIAM
+                        Memoriam
                     </Typography>
                     <Typography variant="h6" className={classes.welcomeTitle}>
                         Welcome Łukasz!

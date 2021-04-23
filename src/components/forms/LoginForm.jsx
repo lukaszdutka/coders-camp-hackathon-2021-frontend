@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import { EmailInput, PasswordInput } from "../inputs";
-import { AppContext } from "../../states/App";
+import { AppContext } from "../../Context";
 import { Server } from "../../api/server";
 
 export const LoginForm = () => {
