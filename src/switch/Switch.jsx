@@ -6,7 +6,6 @@ import PrivateRoute from "./PrivateRoute";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppContext } from "../Context";
 import { MeetingView } from "../components/forms/MeetingView";
-
 const useStyles = makeStyles((theme) => ({
     rootMain: {
         flexGrow: 1,

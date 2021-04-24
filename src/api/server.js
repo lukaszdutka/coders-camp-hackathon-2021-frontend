@@ -13,8 +13,6 @@ export class Server {
             });
             const loginBody = await response.json();
 
-            if (!response.ok) loginBody.error = true;
-
             return { token: loginBody.token, profile: loginBody.user };
         } catch (error) {
             Server.handleError(error);
@@ -32,7 +30,6 @@ export class Server {
                 body: JSON.stringify(values),
             });
             const result = await response.json();
-            if (!response.ok) result.error = true;
 
             return result;
         } catch (error) {
