@@ -4,7 +4,7 @@ import SendIcon from "@material-ui/icons/Send";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-export const QuestionListItem = ({ question, onItemClicked }) => {
+export const QuestionListItem = ({ question }) => {
     const [seconds, setSeconds] = useState(10);
     const [counter, setCounter] = useState(10);
     const [isActive, setIsActive] = useState(false);
@@ -29,7 +29,6 @@ export const QuestionListItem = ({ question, onItemClicked }) => {
     }, [isActive, counter]);
 
     const itemClicked = () => {
-        onItemClicked();
         setIsActive(true);
     };
 

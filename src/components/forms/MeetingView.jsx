@@ -48,13 +48,7 @@ export const MeetingView = ({ roomId }) => {
             return <ListItem> There are no questions </ListItem>;
         }
         return questions.map((question) => {
-            return (
-                <QuestionListItem
-                    key={question.id}
-                    question={question}
-                    onItemClicked={() => console.log("clicked :)")}
-                />
-            );
+            return <QuestionListItem key={question.id} question={question} />;
         });
     };
     return (
