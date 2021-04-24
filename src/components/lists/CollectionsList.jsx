@@ -1,22 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Typography, ListItem, ListItemText, List, IconButton, ListItemSecondaryAction } from "@material-ui/core";
-import { Server } from "../../api/server";
+import {
+    Typography,
+    ListItem,
+    ListItemText,
+    List,
+    IconButton,
+    ListItemSecondaryAction,
+    CircularProgress,
+} from "@material-ui/core";
+import { Collections } from "../../api/collections";
 import { AppContext } from "../../Context";
 import EditIcon from "@material-ui/icons/Edit";
+import AnimatedModal from "../modals/AnimatedModal";
+import { QuestionsList } from "./QuestionsList";
 
 export const CollectionsList = () => {
     const { token } = useContext(AppContext);
-    const [collections, setCollections] = useState([
-        { name: "collectionName", id: "12312" },
-        { name: "secondCollectionName", id: "112" },
-    ]);
+    const [collections, setCollections] = useState([]);
 
-    function getCollections(result) {
-        if (!result.error) setCollections(result);
+    async function getCollections(result) {
+        const collections = await result;
+
+        if (!collections.error) setCollections(collections);
     }
 
     useEffect(() => {
-        //Server.getUserCollections(token, getCollections);
+        getCollections(Collections.getAllCollections(token));
     }, [token]);
 
     function handleEditClick(event) {
@@ -25,21 +34,24 @@ export const CollectionsList = () => {
     }
 
     return (
-        <Grid item xs={12}>
+        <>
+            <AnimatedModal>
+                <QuestionsList />
+            </AnimatedModal>
             <List>
                 <Typography variant="h6">Collections of Questions</Typography>
-                <List>
-                    {collections.map((collection) => {
+                {!!collections.length ? (
+                    collections.map((collection) => {
                         console.log(collection);
                         return (
-                            <ListItem key={collection.id}>
+                            <ListItem key={collection._id}>
                                 <ListItemText primary={collection.name} />
                                 <ListItemSecondaryAction>
                                     <IconButton
                                         color="primary"
                                         edge="end"
                                         aria-label="edit"
-                                        value={collection.id}
+                                        value={collection._id}
                                         onClick={handleEditClick}
                                     >
                                         <EditIcon />
@@ -47,9 +59,11 @@ export const CollectionsList = () => {
                                 </ListItemSecondaryAction>
                             </ListItem>
                         );
-                    })}
-                </List>
+                    })
+                ) : (
+                    <CircularProgress />
+                )}
             </List>
-        </Grid>
+        </>
     );
 };

@@ -9,21 +9,12 @@ import {
     ListItemSecondaryAction,
     CircularProgress,
 } from "@material-ui/core";
-import { Server } from "../../api/server";
-import { AppContext } from "../../Context";
+
 import EditIcon from "@material-ui/icons/Edit";
 
-export const QuestionsList = () => {
-    const { token } = useContext(AppContext);
-    const [questions, setQuestions] = useState([]);
-
-    function getQuestions(result) {
-        if (!result.error) setQuestions(result);
-    }
-
-    useEffect(() => {
-        //Server.getUserCollections(token, getCollections);
-    }, [token]);
+export const QuestionsList = (questionsCollection) => {
+    const [originalQuestions, setOriginalQuestions] = useState(questionsCollection);
+    const [questions, setQuestions] = useState(questionsCollection);
 
     function handleEditClick(event) {
         const id = event.currentTarget.value;
