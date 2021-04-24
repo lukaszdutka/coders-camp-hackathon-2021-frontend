@@ -82,8 +82,10 @@ export const MeetingView = () => {
         }
     };
     return (
-        <Container maxWidth="lg">
-            <Typography variant="h4">Room {room.name}</Typography>
+        <Container maxWidth="lg" className={classes.smallPadding}>
+            <Typography variant="h4" className={classes.smallPadding}>
+                Room {room.name}
+            </Typography>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
                     <Paper>
