@@ -12,8 +12,6 @@ export class Rooms {
             });
             const roomsResponse = await response.json();
 
-            if (!response.ok) roomsResponse.error = true;
-
             return roomsResponse;
         } catch (error) {
             Rooms.handleError(error);
@@ -34,8 +32,6 @@ export class Rooms {
             });
             const roomResponse = await response.json();
 
-            if (!response.ok) roomResponse.error = true;
-
             return roomResponse;
         } catch (error) {
             Rooms.handleError(error);
@@ -54,8 +50,6 @@ export class Rooms {
                 },
             });
             const editRoomResponse = await response.json();
-
-            if (!response.ok) editRoomResponse.error = true;
 
             return editRoomResponse;
         } catch (error) {

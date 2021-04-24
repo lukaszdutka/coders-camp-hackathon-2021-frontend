@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, FormGroup, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import {
+    FormHelperText,
+    Button,
+    FormGroup,
+    TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from "@material-ui/core";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { AppContext } from "../../Context";
@@ -12,14 +21,28 @@ const validationSchema = yup.object({
 export const CreateRoom = () => {
     const { token } = useContext(AppContext);
     const [collections, setCollections] = useState([]);
+    const [error, setError] = useState("");
 
-    const onSubmit = (values) => {
-        Rooms.createRoom({ name: values.roomName, questionsCollection: values.collectionsSelect }, token);
+    const onSubmit = async (values) => {
+        const result = await Rooms.createRoom(
+            { name: values.roomName, questionsCollection: values.collectionsSelect },
+            token,
+        );
+        if (!result.error) {
+            setError("");
+        } else {
+            setError(result.error);
+        }
     };
 
     async function getCollections(result) {
-        const collections = await result;
-        if (!collections.error) setCollections(collections);
+        const collectionsResponse = await result;
+
+        if (!collectionsResponse.error) {
+            setCollections(collectionsResponse);
+        } else {
+            setError("Something went wrong");
+        }
     }
 
     const formik = useFormik({
@@ -66,6 +89,7 @@ export const CreateRoom = () => {
                         ))}
                     </Select>
                 </FormControl>
+                <FormHelperText error>{error}</FormHelperText>
                 <Button type="submit">Submit</Button>
             </FormGroup>
         </form>
