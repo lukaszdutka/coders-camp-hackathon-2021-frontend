@@ -21,7 +21,7 @@ export class Rooms {
     }
 
     static async createRoom(room, token) {
-        // room = {name: "string", "questionsCollection": "2039ir23f023f9023" } //questionsCollection to id
+        // room = {name: "string", "questionsCollectionId": "2039ir23f023f9023" } //questionsCollection to id
         try {
             const response = await fetch(Rooms.apiUrl, {
                 method: "POST",

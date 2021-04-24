@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, FormGroup, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { Server } from "../../api/server";
 import { AppContext } from "../../Context";
+import { Rooms } from "../../api/rooms";
 
 const validationSchema = yup.object({
     roomName: yup.string("Enter room name").required("Name of room is required"),
@@ -14,11 +14,12 @@ export const CreateRoom = () => {
     const [collections, setCollections] = useState([]);
 
     const onSubmit = (values) => {
-        console.log(values);
+        Rooms.createRoom({ name: values.roomName, questionsCollection: values.collectionsSelect }, token);
     };
 
-    function getCollections(result) {
-        if (!result.error) setCollections(result);
+    async function getCollections(result) {
+        const collections = await result;
+        if (!collections.error) setCollections(collections);
     }
 
     const formik = useFormik({
@@ -31,7 +32,7 @@ export const CreateRoom = () => {
     });
 
     useEffect(() => {
-        Server.getUserCollection(token, getCollections);
+        getCollections(Rooms.getRooms(token));
     }, [token]);
 
     return (
@@ -47,7 +48,7 @@ export const CreateRoom = () => {
                     helperText={formik.touched.email && formik.errors.email}
                 />
                 <FormControl>
-                    <InputLabel>Collections of questions</InputLabel>
+                    <InputLabel>Collections</InputLabel>
                     <Select
                         labelId="collectionsSelect"
                         id="collectionsSelect"
@@ -58,8 +59,8 @@ export const CreateRoom = () => {
                         <MenuItem value="None">
                             <em>None</em>
                         </MenuItem>
-                        {collections.map(({ name, id }) => (
-                            <MenuItem key={id} value={id}>
+                        {collections.map(({ name, _id }) => (
+                            <MenuItem key={_id} value={_id}>
                                 {name}
                             </MenuItem>
                         ))}
