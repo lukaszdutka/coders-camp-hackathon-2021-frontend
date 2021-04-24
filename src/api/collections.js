@@ -10,9 +10,7 @@ export class Collections {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const collectionsResponse = await response.json();
-
-            return collectionsResponse;
+            return await response.json();
         } catch (error) {
             Collections.handleError(error);
         }

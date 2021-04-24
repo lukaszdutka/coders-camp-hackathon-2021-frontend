@@ -29,9 +29,7 @@ export class Server {
                 },
                 body: JSON.stringify(values),
             });
-            const result = await response.json();
-
-            return result;
+            return await response.json();
         } catch (error) {
             Server.handleError(error);
         }
