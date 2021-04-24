@@ -47,7 +47,7 @@ export const Nav = () => {
                             )}
                             <Button
                                 variant="contained"
-                                color="primary"
+                                color="secondary"
                                 startIcon={<ExitToAppIcon />}
                                 onClick={handleLogout}
                             >
