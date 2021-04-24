@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Home } from "../views/home/Home";
 import { Profile } from "../views/profile/Profile";
+import { Guest } from "../views/guest/Guest";
 import PrivateRoute from "./PrivateRoute";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppContext } from "../Context";
@@ -21,7 +22,7 @@ export const AppSwitch = () => {
         <main className={classes.rootMain}>
             <Switch>
                 <Route exact path="/" render={() => (token ? <Profile /> : <Home />)} />
-                <Route exact path="/guest/:id" component={() => <div>Guest</div>} />
+                <Route exact path="/guest/:id" render={() => (token ? <Profile /> : <Guest />)} />
                 <PrivateRoute exact path="/profile" component={Profile} />
                 <PrivateRoute path="/room/:id" component={MeetingView} />
             </Switch>

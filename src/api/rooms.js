@@ -16,14 +16,11 @@ export class Rooms {
         }
     }
 
-    static async getRoomById(id, token) {
+    static async getRoomById(id) {
         try {
             const response = await fetch(`${Rooms.apiUrl}/${id}`, {
                 method: "GET",
                 mode: "cors",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
             });
             return await response.json();
         } catch (error) {
@@ -103,7 +100,7 @@ export class Rooms {
         }
     }
 
-    static async updateGuests(id, guest, token) {
+    static async updateGuests(id, guest) {
         // guest = {email: "test@test.com", name: "Albus Dumbledore"}
         try {
             const response = await fetch(`${Rooms.apiUrl}/${id}`, {
@@ -111,7 +108,6 @@ export class Rooms {
                 mode: "cors",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(guest),
             });
