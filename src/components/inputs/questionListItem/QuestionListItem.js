@@ -1,4 +1,4 @@
-import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from "@material-ui/core";
+import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Tooltip } from "@material-ui/core";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import SendIcon from "@material-ui/icons/Send";
 import PropTypes from "prop-types";
@@ -20,7 +20,7 @@ export const QuestionListItem = ({ questionId }) => {
             };
             setQuestion(question);
         };
-        fetchQuestion()
+        fetchQuestion();
     }, [questionId]);
 
     useEffect(() => {
@@ -50,12 +50,16 @@ export const QuestionListItem = ({ questionId }) => {
             <ListItemIcon>
                 <QuestionAnswerIcon />
             </ListItemIcon>
-            <ListItemText primary={`${question.text}`} />
+            <Tooltip title={"Ask this question"}>
+                <ListItemText primary={`${question.text}`} />
+            </Tooltip>
             {seconds}
             <ListItemSecondaryAction>
-                <IconButton disabled={isGrayedOut} edge="end" aria-label="delete" onClick={itemClicked}>
-                    <SendIcon />
-                </IconButton>
+                <Tooltip title={"Ask this question"}>
+                    <IconButton disabled={isGrayedOut} edge="end" aria-label="delete" onClick={itemClicked}>
+                        <SendIcon />
+                    </IconButton>
+                </Tooltip>
             </ListItemSecondaryAction>
         </ListItem>
     );

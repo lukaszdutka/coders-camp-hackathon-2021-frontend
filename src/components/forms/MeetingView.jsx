@@ -1,5 +1,5 @@
 import "../../App.css";
-import { Container, List, ListItem, makeStyles, Typography } from "@material-ui/core";
+import { Container, Divider, Grid, List, ListItem, makeStyles, Paper, Tooltip, Typography } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(4, 0, 2),
     },
+    smallPadding: {
+        padding: "10px",
+    },
 }));
 
 // export const MeetingView = ({roomId}) => {
@@ -28,15 +31,18 @@ export const MeetingView = () => {
     const [questionIds, setQuestionIds] = useState([]);
     const [collectionName, setCollectionName] = useState("");
     const [room, setRoom] = useState({});
+    const [guests, setGuests] = useState([]);
 
     useEffect(() => {
         const fetchRoom = async () => {
-            let rooms = await Rooms.getRooms(token); //todo change to get room
+            let rooms = await Rooms.getRooms(token); //todo change to get single room
             let roomResponse = rooms.filter((r) => r._id === roomId)[0];
 
             setRoom(roomResponse);
             setCollectionName(roomResponse.questionsCollection.name);
             setQuestionIds(roomResponse.questionsCollection.questions);
+            setGuests(roomResponse.guests);
+
             return roomResponse;
         };
         fetchRoom();
@@ -50,13 +56,40 @@ export const MeetingView = () => {
             return <QuestionListItem key={questionId} questionId={questionId} />;
         });
     };
+
+    const listGuests = () => {
+        if (!guests || guests.length === 0) {
+            return <ListItem> There are no guests</ListItem>;
+        }
+    };
+
     return (
-        <Container maxWidth="sm">
-            <Typography variant="h5">Room {room.name}</Typography>
-            <Typography variant="h6">Questions of {collectionName}</Typography>
-            <div className={classes.demo}>
-                <List>{listQuestions()}</List>
-            </div>
+        <Container maxWidth="lg">
+            <Typography variant="h4">Room {room.name}</Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+                    <Paper>
+                        <Typography variant="h6" className={classes.smallPadding}>
+                            Questions of {collectionName}
+                        </Typography>
+                        <Divider />
+                        <div className={classes.demo}>
+                            <List>{listQuestions()}</List>
+                        </div>
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                    <Paper>
+                        <Typography variant="h6" className={classes.smallPadding}>
+                            Attendants
+                        </Typography>
+                        <Divider />
+                        <div className={classes.demo}>
+                            <List>{listGuests()}</List>
+                        </div>
+                    </Paper>
+                </Grid>
+            </Grid>
         </Container>
     );
 };
