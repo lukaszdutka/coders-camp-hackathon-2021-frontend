@@ -17,6 +17,39 @@ import { QuestionsList } from "./QuestionsList";
 export const CollectionsList = () => {
     const { token } = useContext(AppContext);
     const [collections, setCollections] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [questions, setQuestions] = useState([]);
+    const [activeCollectionId, setActiveCollectionId] = useState("");
+
+    const toggleOpen = () => {
+        if (modalOpen) setActiveCollectionId("");
+        setModalOpen((previous) => !previous);
+    };
+
+    function updateQuestion(question) {
+        if (findQuestionInActiveCollection(question._id).new) {
+            Collections.addQuestionToCollection(activeCollectionId, mapQuestion(question), token);
+        } else {
+            //To do update question
+            console.log(question);
+        }
+    }
+
+    function findQuestionInActiveCollection(questionId) {
+        return collections
+            .find((collection) => collection._id === activeCollectionId)
+            .questions.find((question) => question._id === questionId);
+    }
+
+    function mapQuestion({ id, text, correctAnswer, timeForAnswer, answer0, answer1, answer2, answer3 }) {
+        return {
+            _id: id,
+            text,
+            correctAnswer: --correctAnswer,
+            timeForAnswer,
+            answers: [answer0, answer1, answer2, answer3],
+        };
+    }
 
     async function getCollections(result) {
         const collections = await result;
@@ -30,19 +63,42 @@ export const CollectionsList = () => {
 
     function handleEditClick(event) {
         const id = event.currentTarget.value;
-        console.log(id);
+        const collection = collections.filter((collection) => collection._id === id)[0];
+
+        setActiveCollectionId(id);
+        setQuestions(collection.questions);
+        toggleOpen();
+    }
+
+    function addQuestionToCollection() {
+        const collectionsTemp = [...collections];
+
+        collectionsTemp
+            .find((collection) => collection._id === activeCollectionId)
+            .questions.push({
+                new: true,
+                _id: Date.now(),
+                text: "",
+                correctAnswer: 0,
+                timeForAnswer: 60,
+                answers: ["", "", "", ""],
+            });
+        setCollections(collectionsTemp);
     }
 
     return (
         <>
-            <AnimatedModal>
-                <QuestionsList />
+            <AnimatedModal toggleOpen={toggleOpen} open={modalOpen}>
+                <QuestionsList
+                    updateQuestion={updateQuestion}
+                    questionsArray={questions}
+                    addQuestion={addQuestionToCollection}
+                />
             </AnimatedModal>
             <List>
                 <Typography variant="h6">Collections of Questions</Typography>
                 {!!collections.length ? (
                     collections.map((collection) => {
-                        console.log(collection);
                         return (
                             <ListItem key={collection._id}>
                                 <ListItemText primary={collection.name} />

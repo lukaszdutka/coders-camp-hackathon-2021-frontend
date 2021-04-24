@@ -81,6 +81,7 @@ export class Collections {
 
     static async addQuestionToCollection(id, question, token) {
         // question = {text: "string", answers: [...], correctAnswer: 0, timeForAnswer: 60}
+        console.log(id, question, token);
         try {
             const response = await fetch(`${Collections.apiUrl}/${id}`, {
                 method: "PATCH",

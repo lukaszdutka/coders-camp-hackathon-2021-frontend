@@ -1,55 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-    Grid,
-    Typography,
-    ListItem,
-    ListItemText,
-    List,
-    IconButton,
-    ListItemSecondaryAction,
-    CircularProgress,
-} from "@material-ui/core";
+import React from "react";
+import { Grid, Typography, List, IconButton } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
-import EditIcon from "@material-ui/icons/Edit";
+import { QuestionEdit } from "../forms/QuestionEdit";
 
-export const QuestionsList = (questionsCollection) => {
-    const [originalQuestions, setOriginalQuestions] = useState(questionsCollection);
-    const [questions, setQuestions] = useState(questionsCollection);
-
-    function handleEditClick(event) {
-        const id = event.currentTarget.value;
-        console.log(id);
-    }
-
+export const QuestionsList = ({ questionsArray, updateQuestion, addQuestion }) => {
     return (
-        <Grid item xs={6}>
+        <Grid item xs={12}>
             <List>
-                <Typography variant="h6">Collections of Questions</Typography>
-                <List>
-                    {!!questions.length ? (
-                        questions.map((question) => {
-                            console.log(question);
-                            return (
-                                <ListItem key={question.id}>
-                                    <ListItemText primary={question.name} />
-                                    <ListItemSecondaryAction>
-                                        <IconButton
-                                            color="primary"
-                                            edge="end"
-                                            aria-label="edit"
-                                            value={question.id}
-                                            onClick={handleEditClick}
-                                        >
-                                            <EditIcon />
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            );
-                        })
-                    ) : (
-                        <CircularProgress />
-                    )}
-                </List>
+                <Typography variant="h6">Collection</Typography>
+                {!!questionsArray.length
+                    ? questionsArray.map((question) => {
+                          return (
+                              <QuestionEdit key={question._id} question={question} updateQuestion={updateQuestion} />
+                          );
+                      })
+                    : "This collection is empty"}
+                <IconButton onClick={addQuestion}>
+                    <AddIcon />
+                </IconButton>
             </List>
         </Grid>
     );
