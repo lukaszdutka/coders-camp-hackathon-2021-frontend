@@ -1,8 +1,10 @@
 import "../../App.css";
-import { Container, List, ListItem, makeStyles, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Container, Divider, Grid, List, ListItem, makeStyles, Paper, Typography } from "@material-ui/core";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
+import { AppContext } from "../../Context";
+import { Rooms } from "../../api/rooms";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,48 +17,78 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(4, 0, 2),
     },
+    smallPadding: {
+        padding: "10px",
+    },
 }));
 
-export const MeetingView = ({ roomId }) => {
+// export const MeetingView = ({roomId}) => {
+export const MeetingView = () => {
+    const roomId = "6083c31a612ed37248485983";
+    const { token } = useContext(AppContext);
+
     const classes = useStyles();
-    const [questions, setQuestions] = useState([]);
+    const [room, setRoom] = useState({});
+    const [questionCollection, setQuestionCollection] = useState({});
+    const [guests, setGuests] = useState([]);
 
     useEffect(() => {
-        setQuestions(getQuestionsByRoomId(roomId));
-    }, [roomId]);
+        // useParams()
+        // useLocation()
+        const fetchRoom = async () => {
+            let roomResponse = await Rooms.getRoomById(roomId, token);
 
-    const getQuestionsByRoomId = (roomId) => {
-        console.log("Questions got from server"); //todo api call
-        return [
-            {
-                id: "1",
-                text: "What is love?",
-            },
-            {
-                id: "2",
-                text: "Baby don't hurt me?",
-            },
-            {
-                id: "3",
-                text: "What is REST?",
-            },
-        ];
-    };
+            setRoom(roomResponse);
+            setQuestionCollection(roomResponse.questionsCollectionId); //its named id but it's whole object XD
+            setGuests(roomResponse.guests);
 
-    const listItems = () => {
-        if (!questions || questions.length === 0) {
+            return roomResponse;
+        };
+        fetchRoom();
+    }, [roomId, token]);
+
+    const listQuestions = () => {
+        if (!questionCollection.questions || questionCollection.questions.length === 0) {
             return <ListItem> There are no questions </ListItem>;
         }
-        return questions.map((question) => {
+        return questionCollection.questions.map((question) => {
             return <QuestionListItem key={question.id} question={question} />;
         });
     };
+
+    const listGuests = () => {
+        if (!guests || guests.length === 0) {
+            return <ListItem> There are no guests</ListItem>;
+        }
+    };
+
     return (
-        <Container maxWidth="sm" style={{ paddingTop: "40%" }}>
-            <Typography variant="h6">Questions</Typography>
-            <div className={classes.demo}>
-                <List>{listItems()}</List>
-            </div>
+        <Container maxWidth="lg">
+            <Typography variant="h4">Room {room.name}</Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+                    <Paper>
+                        <Typography variant="h6" className={classes.smallPadding}>
+                            Questions of {questionCollection.name}
+                        </Typography>
+                        <Divider />
+                        <div className={classes.demo}>
+                            <List>{listQuestions()}</List>
+                        </div>
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                    <Paper>
+                        <Typography variant="h6" className={classes.smallPadding}>
+                            Attendants
+                        </Typography>
+                        <Divider />
+                        <div className={classes.demo}>
+                            <List>{listGuests()}</List>
+                        </div>
+                    </Paper>
+                </Grid>
+            </Grid>
         </Container>
     );
 };
