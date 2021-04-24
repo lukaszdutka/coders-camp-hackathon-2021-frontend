@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/coders-camp-hackathon-2021-frontend/static/css/main.61be61f6.chunk.css",
-    "main.js": "/coders-camp-hackathon-2021-frontend/static/js/main.5f01363c.chunk.js",
-    "main.js.map": "/coders-camp-hackathon-2021-frontend/static/js/main.5f01363c.chunk.js.map",
+    "main.js": "/coders-camp-hackathon-2021-frontend/static/js/main.8f451c11.chunk.js",
+    "main.js.map": "/coders-camp-hackathon-2021-frontend/static/js/main.8f451c11.chunk.js.map",
     "runtime-main.js": "/coders-camp-hackathon-2021-frontend/static/js/runtime-main.8ba63c1e.js",
     "runtime-main.js.map": "/coders-camp-hackathon-2021-frontend/static/js/runtime-main.8ba63c1e.js.map",
-    "static/js/2.65e77f36.chunk.js": "/coders-camp-hackathon-2021-frontend/static/js/2.65e77f36.chunk.js",
-    "static/js/2.65e77f36.chunk.js.map": "/coders-camp-hackathon-2021-frontend/static/js/2.65e77f36.chunk.js.map",
+    "static/js/2.02cf5c88.chunk.js": "/coders-camp-hackathon-2021-frontend/static/js/2.02cf5c88.chunk.js",
+    "static/js/2.02cf5c88.chunk.js.map": "/coders-camp-hackathon-2021-frontend/static/js/2.02cf5c88.chunk.js.map",
     "index.html": "/coders-camp-hackathon-2021-frontend/index.html",
     "static/css/main.61be61f6.chunk.css.map": "/coders-camp-hackathon-2021-frontend/static/css/main.61be61f6.chunk.css.map",
-    "static/js/2.65e77f36.chunk.js.LICENSE.txt": "/coders-camp-hackathon-2021-frontend/static/js/2.65e77f36.chunk.js.LICENSE.txt",
+    "static/js/2.02cf5c88.chunk.js.LICENSE.txt": "/coders-camp-hackathon-2021-frontend/static/js/2.02cf5c88.chunk.js.LICENSE.txt",
     "static/media/homeImg.05c2a606.jpg": "/coders-camp-hackathon-2021-frontend/static/media/homeImg.05c2a606.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.8ba63c1e.js",
-    "static/js/2.65e77f36.chunk.js",
+    "static/js/2.02cf5c88.chunk.js",
     "static/css/main.61be61f6.chunk.css",
-    "static/js/main.5f01363c.chunk.js"
+    "static/js/main.8f451c11.chunk.js"
   ]
 }
