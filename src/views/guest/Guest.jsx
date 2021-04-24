@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Rooms } from "../../api/rooms";
 import { GuestForm } from "../../components/forms/GuestForm";
-import { Typography, Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 
 export const Guest = () => {
     const { id } = useParams();

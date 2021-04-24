@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
-import { useParams } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,6 +39,8 @@ export const MeetingView = () => {
     //     const roomId = "6083c31a612ed37248485983";
     const { id } = useParams();
     const roomId = id;
+
+    const history = useHistory();
 
     const classes = useStyles();
     const { token } = useContext(AppContext);
@@ -100,7 +102,8 @@ export const MeetingView = () => {
     };
 
     const closeRoom = () => {
-        Rooms.closeRoom(roomId, token);
+        // Rooms.closeRoom(roomId, token);
+        history.push(`/summary/${roomId}`);
     };
     return (
         <Container maxWidth="lg" className={classes.smallPadding}>

@@ -158,6 +158,21 @@ export class Rooms {
         }
     }
 
+    static async getMentorSummary(roomId, token) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/summary`, {
+                method: "GET",
+                mode: "cors", //no auth needed
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
     static async closeRoom(roomId, token) {
         try {
             const response = await fetch(`${Rooms.apiUrl}/${roomId}/close`, {
