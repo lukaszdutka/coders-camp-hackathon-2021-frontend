@@ -10,14 +10,13 @@ export const Guest = () => {
     const [room, setRoom] = useState(null);
     const [guestName, setGuestName] = useState("");
     const [guestEmail, setGuestEmail] = useState("");
-    const [activeQuestion, setActiveQuestion] = useState(null);
+    const [activeQuestion, setActiveQuestion] = useState({});
 
     useEffect(() => {
         const getActiveQuestion = async () => {
             const question = await Rooms.getActiveQuestion(id, guestEmail);
             if (!question.error) setActiveQuestion(question);
-            if (question.error || !question) setActiveQuestion("");
-            console.log(question);
+            if (question.error || !question) setActiveQuestion({});
         };
         if (guestEmail) {
             getActiveQuestion();
@@ -35,9 +34,9 @@ export const Guest = () => {
                     <Typography variant="body1">Please wait for questions</Typography>
                 </Paper>
             )}
-            {activeQuestion && guestName && guestEmail && (
+            {activeQuestion.activeQuestion && guestName && guestEmail && (
                 <Question
-                    activeQuestion={activeQuestion}
+                    question={activeQuestion}
                     setActiveQuestion={setActiveQuestion}
                     roomId={id}
                     email={guestEmail}

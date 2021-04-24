@@ -134,6 +134,9 @@ export class Rooms {
             const response = await fetch(`${Rooms.apiUrl}/${roomId}/answers`, {
                 method: "POST",
                 mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({
                     questionId: questionId,
                     answer: answerIndex,
