@@ -63,7 +63,6 @@ export const RoomsList = () => {
     };
 
     const open = Boolean(anchorEl);
-    const id = open ? "room-popover" : undefined;
 
     const roomList = rooms.map((room) => {
         const date = new Date(room.createdAt).toLocaleString();
