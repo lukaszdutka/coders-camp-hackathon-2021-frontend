@@ -43,12 +43,14 @@ export const QuestionListItem = ({ question }) => {
     };
 
     const listAnswers = () => {
-        if (!question || !question.answers || question.answers.length === 0) {
-            return <ListItemText>No answers</ListItemText>;
-        }
-        return question.answers.map((answer, index) => {
-            return <ListItemText key={index}>{answer}</ListItemText>;
-        });
+        // todo: list answers
+        // if (!question || !question.answers || question.answers.length === 0) {
+        //     return <ListItemText>No answers</ListItemText>;
+        // }
+        // return question.answers.map((answer, index) => {
+        //     return <ListItemText key={index}>{answer}</ListItemText>;
+        // });
+        return undefined;
     };
 
     return (
