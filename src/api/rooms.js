@@ -162,7 +162,7 @@ export class Rooms {
         try {
             const response = await fetch(`${Rooms.apiUrl}/${roomId}/summary`, {
                 method: "GET",
-                mode: "cors", //no auth needed
+                mode: "cors",
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

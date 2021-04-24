@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
-import {useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,7 +102,7 @@ export const MeetingView = () => {
     };
 
     const closeRoom = () => {
-        // Rooms.closeRoom(roomId, token);
+        Rooms.closeRoom(roomId, token);
         history.push(`/summary/${roomId}`);
     };
     return (
