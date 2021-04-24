@@ -49,7 +49,7 @@ export const RoomsList = () => {
 
     const handleCopyLink = (roomId) => {
         // delete localhost for deployment
-        copy(`http://localhost:3000${process.env.PUBLIC_URL}/guest/${roomId}`);
+        copy(`{process.env.PUBLIC_URL}/guest/${roomId}`);
     };
 
     const handleGoToRoom = (roomId) => {
