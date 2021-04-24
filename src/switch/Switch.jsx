@@ -23,7 +23,7 @@ export const AppSwitch = () => {
         <main className={classes.rootMain}>
             <Switch>
                 <Route exact path="/" render={() => (token ? <Profile /> : <Home />)} />
-                <Route exact path="/guest/:id" render={() => (token ? <Profile /> : <Guest />)} />
+                <Route exact path="/guest/:id/" render={() => (token ? <Profile /> : <Guest />)} />
                 <PrivateRoute exact path="/profile" component={Profile} />
                 <PrivateRoute path="/room/:id" component={MeetingView} />
                 <PrivateRoute path="/summary/:id" component={MentorSummaryView} />
