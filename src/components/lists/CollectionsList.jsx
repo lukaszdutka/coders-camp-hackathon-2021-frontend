@@ -6,13 +6,26 @@ import {
     List,
     IconButton,
     ListItemSecondaryAction,
-    CircularProgress, Divider, Paper,
+    CircularProgress,
+    Button,
+    makeStyles,
+    Divider,
 } from "@material-ui/core";
 import { Collections } from "../../api/collections";
 import { AppContext } from "../../Context";
 import EditIcon from "@material-ui/icons/Edit";
 import AnimatedModal from "../modals/AnimatedModal";
 import { QuestionsList } from "./QuestionsList";
+import AddIcon from "@material-ui/icons/Add";
+import { Popup } from "../modals/Popup";
+import { CreateCollection } from "../forms/CreateCollection";
+
+const useStyles = makeStyles(() => ({
+    buttonModal: {
+        display: "grid",
+        justifyItems: "center",
+    },
+}));
 
 export const CollectionsList = () => {
     const { token } = useContext(AppContext);
@@ -20,11 +33,17 @@ export const CollectionsList = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [questions, setQuestions] = useState([]);
     const [activeCollectionId, setActiveCollectionId] = useState("");
+    const [anchorEl, setAnchorEl] = useState(null);
+    const classes = useStyles();
 
     const toggleOpen = () => {
         if (modalOpen) setActiveCollectionId("");
         setModalOpen((previous) => !previous);
     };
+
+    function addCollection(collection) {
+        setCollections([...collections, collection]);
+    }
 
     function updateQuestion(question) {
         if (findQuestionInActiveCollection(question._id).new) {
@@ -86,6 +105,15 @@ export const CollectionsList = () => {
         setCollections(collectionsTemp);
     }
 
+    const handleOpenPopup = (e) => {
+        console.log(e.currentTarget);
+        setAnchorEl(e.currentTarget);
+    };
+
+    const handleClosePopup = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <>
             <AnimatedModal toggleOpen={toggleOpen} open={modalOpen}>
@@ -122,6 +150,14 @@ export const CollectionsList = () => {
                 ) : (
                     <CircularProgress />
                 )}
+                <div className={classes.buttonModal}>
+                    <Button variant="contained" color="secondary" startIcon={<AddIcon />} onClick={handleOpenPopup}>
+                        Add new Collection
+                    </Button>
+                </div>
+                <Popup anchorEl={anchorEl} handleClosePopup={handleClosePopup} open={!!anchorEl}>
+                    <CreateCollection handleClosePopup={handleClosePopup} addCollection={addCollection} />
+                </Popup>
             </List>
         </>
     );

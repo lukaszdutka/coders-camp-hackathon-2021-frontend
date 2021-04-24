@@ -37,8 +37,10 @@ export class Collections {
         }
     }
 
-    static async createCollection(collection, token) {
+    static async createCollection(collectionName, token) {
         // collection = {name: "string"}
+        const collection = { name: collectionName };
+
         try {
             const response = await fetch(Collections.apiUrl, {
                 method: "POST",
