@@ -18,7 +18,7 @@ export const GuestSummary = ({ roomId = "6084112b166c3c3e3430215e", email = "tes
 
     const fetchGuestSummary = async (resultPromise) => {
         const result = await resultPromise;
-        console.log(result);
+
         if (!result.error) setUserSummary(result);
     };
 
@@ -27,7 +27,6 @@ export const GuestSummary = ({ roomId = "6084112b166c3c3e3430215e", email = "tes
     }, []);
 
     const getSummary = () => {
-        console.log(userSummary);
         const correctAnswers = userSummary.questions.reduce((sum, val) => (sum += val.correct), 0);
         const incorrectAnswers = userSummary.questions.length - correctAnswers;
 
@@ -46,7 +45,6 @@ export const GuestSummary = ({ roomId = "6084112b166c3c3e3430215e", email = "tes
         const result = userSummary.questions.map(({ correct, correctAnswer, guestAnswer, text }, index) => {
             return { correct, correctAnswer, guestAnswer, text, id: index };
         });
-        console.log(result);
         return result;
     }
 
