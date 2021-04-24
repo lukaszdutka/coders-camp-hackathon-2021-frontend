@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import {
-    Typography,
-    ListItem,
-    ListItemText,
-    List,
-    ListItemSecondaryAction,
-    CircularProgress,
     Button,
-    useMediaQuery, Divider, Paper,
+    CircularProgress,
+    Divider,
+    List,
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+    Typography,
+    useMediaQuery,
 } from "@material-ui/core";
 import { Rooms } from "../../api/rooms";
 import AddRoomModal from "../modals/AddRoomModal";
@@ -23,6 +24,7 @@ const useStyles = makeStyles(() => ({
     buttonModal: {
         display: "grid",
         justifyItems: "center",
+        paddingTop: "20px",
     },
 }));
 
