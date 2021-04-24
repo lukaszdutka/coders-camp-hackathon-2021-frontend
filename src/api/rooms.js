@@ -16,14 +16,11 @@ export class Rooms {
         }
     }
 
-    static async getRoomById(id, token) {
+    static async getRoomById(id) {
         try {
             const response = await fetch(`${Rooms.apiUrl}/${id}`, {
                 method: "GET",
                 mode: "cors",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
             });
             return await response.json();
         } catch (error) {

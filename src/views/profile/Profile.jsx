@@ -4,7 +4,7 @@ import { RoomsList } from "../../components/lists/RoomsList";
 
 export const Profile = () => {
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
                 <Paper>
                     <RoomsList />
