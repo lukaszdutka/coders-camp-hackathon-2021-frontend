@@ -43,29 +43,6 @@ export const MeetingView = ({ roomId }) => {
         ];
     };
 
-    const setQuestionAsAsked = (questionId) => {
-        console.log(`Question is set as asked: ${questionId}`); //todo api call
-        setTimeout(() => {
-            console.log(questions.filter((q) => q.id !== questionId));
-            setQuestions(questions.filter((q) => q.id !== questionId));
-        }, 10000);
-    };
-
-    const doOnFinish = (questionId) => {
-        console.log(`Finished ${questionId}`);
-    };
-
-    const onItemClicked = (questionId) => {
-        const newQuestions = questions.map((q) => {
-            if (q.id === questionId) {
-                return { ...q, shouldShowProgresBar: true };
-            } else {
-                return q;
-            }
-        });
-        setQuestions(newQuestions);
-    };
-
     const listItems = () => {
         if (!questions || questions.length === 0) {
             return <ListItem> There are no questions </ListItem>;
