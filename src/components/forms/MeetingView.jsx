@@ -1,5 +1,5 @@
 import "../../App.css";
-import { Container, Divider, Grid, List, ListItem, makeStyles, Paper, Tooltip, Typography } from "@material-ui/core";
+import { Container, Divider, Grid, List, ListItem, makeStyles, Paper, Typography } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
@@ -24,25 +24,22 @@ const useStyles = makeStyles((theme) => ({
 
 // export const MeetingView = ({roomId}) => {
 export const MeetingView = () => {
-    const roomId = "6083674df431802ac14a0206";
+    const roomId = "6083c31a612ed37248485983";
     const { token } = useContext(AppContext);
 
     const classes = useStyles();
-    const [questionIds, setQuestionIds] = useState([]);
-    const [collectionName, setCollectionName] = useState("");
     const [room, setRoom] = useState({});
+    const [questionCollection, setQuestionCollection] = useState({});
     const [guests, setGuests] = useState([]);
 
     useEffect(() => {
         // useParams()
         // useLocation()
         const fetchRoom = async () => {
-            let rooms = await Rooms.getRooms(token); //todo change to get single room
-            let roomResponse = rooms.filter((r) => r._id === roomId)[0];
+            let roomResponse = await Rooms.getRoomById(roomId, token);
 
             setRoom(roomResponse);
-            setCollectionName(roomResponse.questionsCollection.name);
-            setQuestionIds(roomResponse.questionsCollection.questions);
+            setQuestionCollection(roomResponse.questionsCollectionId); //its named id but it's whole object XD
             setGuests(roomResponse.guests);
 
             return roomResponse;
@@ -51,11 +48,11 @@ export const MeetingView = () => {
     }, [roomId, token]);
 
     const listQuestions = () => {
-        if (!questionIds || questionIds.length === 0) {
+        if (!questionCollection.questions || questionCollection.questions.length === 0) {
             return <ListItem> There are no questions </ListItem>;
         }
-        return questionIds.map((questionId) => {
-            return <QuestionListItem key={questionId} questionId={questionId} />;
+        return questionCollection.questions.map((question) => {
+            return <QuestionListItem key={question.id} question={question} />;
         });
     };
 
@@ -72,7 +69,7 @@ export const MeetingView = () => {
                 <Grid item xs={8}>
                     <Paper>
                         <Typography variant="h6" className={classes.smallPadding}>
-                            Questions of {collectionName}
+                            Questions of {questionCollection.name}
                         </Typography>
                         <Divider />
                         <div className={classes.demo}>

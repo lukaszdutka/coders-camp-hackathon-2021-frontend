@@ -1,27 +1,24 @@
-import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Tooltip } from "@material-ui/core";
+import {
+    Collapse,
+    IconButton,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemSecondaryAction,
+    ListItemText,
+    Tooltip,
+} from "@material-ui/core";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import SendIcon from "@material-ui/icons/Send";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-export const QuestionListItem = ({ questionId }) => {
-    const [seconds, setSeconds] = useState(10);
-    const [counter, setCounter] = useState(10);
+export const QuestionListItem = ({ question }) => {
+    const defaultTime = question.timeForAnswer !== undefined ? question.timeForAnswer : 10;
+    const [seconds, setSeconds] = useState(defaultTime);
+    const [counter, setCounter] = useState(defaultTime);
     const [isActive, setIsActive] = useState(false);
     const [isGrayedOut, setIsGrayedOut] = useState(false);
-    const [question, setQuestion] = useState({});
-
-    useEffect(() => {
-        const fetchQuestion = () => {
-            //todo fetch question by id
-            const question = {
-                id: questionId,
-                text: "Jaki jest sens życia?",
-            };
-            setQuestion(question);
-        };
-        fetchQuestion();
-    }, [questionId]);
 
     useEffect(() => {
         let intervalId;
@@ -45,14 +42,28 @@ export const QuestionListItem = ({ questionId }) => {
         setIsActive(true);
     };
 
+    const listAnswers = () => {
+        if (!question || !question.answers || question.answers.length === 0) {
+            return <ListItemText>No answers</ListItemText>;
+        }
+        return question.answers.map((answer, index) => {
+            return <ListItemText key={index}>{answer}</ListItemText>;
+        });
+    };
+
     return (
-        <ListItem disabled={isGrayedOut} key={question.id} button onClick={itemClicked}>
+        <ListItem key={question.id} disabled={isGrayedOut} button onClick={itemClicked}>
             <ListItemIcon>
                 <QuestionAnswerIcon />
             </ListItemIcon>
-            <Tooltip title={"Ask this question"}>
-                <ListItemText primary={`${question.text}`} />
-            </Tooltip>
+            <ListItem>
+                <Tooltip title={"Ask this question"}>
+                    <ListItemText primary={`${question.text}`} />
+                </Tooltip>
+            </ListItem>
+            <Collapse in={true} unmountOnExit>
+                <List>{listAnswers()}</List>
+            </Collapse>
             {seconds}
             <ListItemSecondaryAction>
                 <Tooltip title={"Ask this question"}>
