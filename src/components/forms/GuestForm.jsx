@@ -28,7 +28,7 @@ export const GuestForm = ({ roomId, setGuestEmail, setGuestName }) => {
             formik.values.email = "";
             formik.values.name = "";
         } else {
-            setError(result.error);
+            setError("Something went wrong");
         }
     };
 
