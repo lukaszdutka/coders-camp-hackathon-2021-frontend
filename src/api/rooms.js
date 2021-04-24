@@ -12,8 +12,6 @@ export class Rooms {
             });
             const roomsResponse = await response.json();
 
-            if (!response.ok) roomsResponse.error = true;
-
             return roomsResponse;
         } catch (error) {
             Rooms.handleError(error);
@@ -21,7 +19,7 @@ export class Rooms {
     }
 
     static async createRoom(room, token) {
-        // room = {name: "string", "questionsCollection": "2039ir23f023f9023" } //questionsCollection to id
+        // room = {name: "string", "questionsCollectionId": "2039ir23f023f9023" } //questionsCollection to id
         try {
             const response = await fetch(Rooms.apiUrl, {
                 method: "POST",
@@ -33,8 +31,6 @@ export class Rooms {
                 body: JSON.stringify(room),
             });
             const roomResponse = await response.json();
-
-            if (!response.ok) roomResponse.error = true;
 
             return roomResponse;
         } catch (error) {
@@ -54,8 +50,6 @@ export class Rooms {
                 },
             });
             const editRoomResponse = await response.json();
-
-            if (!response.ok) editRoomResponse.error = true;
 
             return editRoomResponse;
         } catch (error) {
