@@ -125,7 +125,9 @@ export const CollectionsList = () => {
 
             <List>
                 <Typography variant="h6">Collections of Questions</Typography>
-                {!!collections.length ? (
+                <Divider />
+
+                {collections ? (
                     collections.map((collection) => {
                         return (
                             <ListItem key={collection._id}>
