@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
+import { FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { LoginForm } from "../../components/forms/LoginForm";
 import { RegisterForm } from "../../components/forms/RegisterForm";
 import homeImg from "./homeImg.jpg";
@@ -52,7 +52,6 @@ export const Home = () => {
                         </FormControl>
                     </div>
                 </div>
-                <Button onClick={() => history.push("/mentor/question")}>Guzik</Button>
             </Grid>
             <Grid item md={6} xs={12}>
                 <div className={classes.loginDiv}>

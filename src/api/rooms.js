@@ -117,6 +117,47 @@ export class Rooms {
         }
     }
 
+    static async getActiveQuestion(roomId, email) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/activequestion?email=${email}`, {
+                method: "GET",
+                mode: "cors", // no auth is ok
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
+    static async postAnswer(roomId, questionId, answerIndex, email) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/answers`, {
+                method: "POST",
+                mode: "cors",
+                body: JSON.stringify({
+                    questionId: questionId,
+                    answer: answerIndex,
+                    email: email,
+                }),
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
+    static async getGuestSummary(roomId, email) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/answers?email=${email}`, {
+                method: "GET",
+                mode: "cors", //no auth needed
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
     static handleError(error) {
         console.log(error);
     }
