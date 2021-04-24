@@ -6,7 +6,7 @@ import {
     List,
     IconButton,
     ListItemSecondaryAction,
-    CircularProgress,
+    CircularProgress, Divider, Paper,
 } from "@material-ui/core";
 import { Collections } from "../../api/collections";
 import { AppContext } from "../../Context";
@@ -98,6 +98,8 @@ export const CollectionsList = () => {
 
             <List>
                 <Typography variant="h6">Collections of Questions</Typography>
+                <Divider />
+
                 {!!collections.length ? (
                     collections.map((collection) => {
                         return (

@@ -7,7 +7,7 @@ import {
     ListItemSecondaryAction,
     CircularProgress,
     Button,
-    useMediaQuery,
+    useMediaQuery, Divider, Paper,
 } from "@material-ui/core";
 import { Rooms } from "../../api/rooms";
 import AddRoomModal from "../modals/AddRoomModal";
@@ -96,6 +96,7 @@ export const RoomsList = () => {
     return (
         <List>
             <Typography variant="h6">Rooms</Typography>
+            <Divider />
             {isLoading ? <CircularProgress /> : roomList}
             <div className={classes.buttonModal}>
                 <Button variant="contained" color="secondary" startIcon={<AddIcon />} onClick={handleOpenPopup}>
