@@ -1,4 +1,5 @@
 import Popover from "@material-ui/core/Popover";
+import { CreateRoom } from "../forms/CreateRoom";
 
 const AddRoomModal = ({ open, handleClosePopup, anchorEl }) => {
     return (
@@ -15,7 +16,7 @@ const AddRoomModal = ({ open, handleClosePopup, anchorEl }) => {
                 horizontal: "center",
             }}
         >
-            The content of the Popover.
+            <CreateRoom handleClosePopup={handleClosePopup} />
         </Popover>
     );
 };

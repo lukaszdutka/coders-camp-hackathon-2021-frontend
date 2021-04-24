@@ -39,7 +39,7 @@ export const RoomsList = () => {
         const getRooms = async () => {
             setIsLoading(true);
             const rooms = await Rooms.getRooms(token);
-            if (!rooms.error) setRooms(rooms);
+            if (!rooms.error) setRooms(rooms.reverse());
             setIsLoading(false);
         };
         getRooms(Rooms.getRooms(token));

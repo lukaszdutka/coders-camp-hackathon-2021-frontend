@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
     FormHelperText,
+    CircularProgress,
     Button,
     FormGroup,
     TextField,
@@ -13,23 +14,27 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
+import { Collections } from "../../api/collections";
 
 const validationSchema = yup.object({
     roomName: yup.string("Enter room name").required("Name of room is required"),
 });
 
-export const CreateRoom = () => {
+export const CreateRoom = ({ handleClosePopup }) => {
     const { token } = useContext(AppContext);
     const [collections, setCollections] = useState([]);
     const [error, setError] = useState("");
 
     const onSubmit = async (values) => {
+        setError(<CircularProgress />);
         const result = await Rooms.createRoom(
-            { name: values.roomName, questionsCollection: values.collectionsSelect },
+            { name: values.roomName, questionsCollectionId: values.collectionsSelect },
             token,
         );
         if (!result.error) {
-            setError("");
+            setError("Room successfully created!");
+            formik.values.roomName = "";
+            formik.values.collectionsSelect = "";
         } else {
             setError(result.error);
         }
@@ -39,7 +44,7 @@ export const CreateRoom = () => {
         const collectionsResponse = await result;
 
         if (!collectionsResponse.error) {
-            setCollections(collectionsResponse);
+            setCollections(collectionsResponse.reverse());
         } else {
             setError("Something went wrong");
         }
@@ -55,7 +60,7 @@ export const CreateRoom = () => {
     });
 
     useEffect(() => {
-        getCollections(Rooms.getRooms(token));
+        getCollections(Collections.getAllCollections(token));
     }, [token]);
 
     return (
@@ -90,7 +95,11 @@ export const CreateRoom = () => {
                     </Select>
                 </FormControl>
                 <FormHelperText error>{error}</FormHelperText>
-                <Button type="submit">Submit</Button>
+                {error !== "Room successfully created!" ? (
+                    <Button type="submit">Submit</Button>
+                ) : (
+                    <Button onClick={handleClosePopup}>Back</Button>
+                )}
             </FormGroup>
         </form>
     );

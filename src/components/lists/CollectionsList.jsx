@@ -21,7 +21,7 @@ export const CollectionsList = () => {
     async function getCollections(result) {
         const collections = await result;
 
-        if (!collections.error) setCollections(collections);
+        if (!collections.error) setCollections(collections.reverse());
     }
 
     useEffect(() => {
