@@ -51,9 +51,7 @@ export class Collections {
                 },
                 body: JSON.stringify(collection),
             });
-            const collectionResponse = await response.json();
-
-            return collectionResponse;
+            return await response.json();
         } catch (error) {
             Collections.handleError(error);
         }
@@ -71,9 +69,7 @@ export class Collections {
                 },
                 body: JSON.stringify(collection),
             });
-            const collectionResponse = await response.json();
-
-            return collectionResponse;
+            return await response.json();
         } catch (error) {
             Collections.handleError(error);
         }
@@ -91,9 +87,7 @@ export class Collections {
                 },
                 body: JSON.stringify(question),
             });
-            const questionResponse = await response.json();
-
-            return questionResponse;
+            return await response.json();
         } catch (error) {
             Collections.handleError(error);
         }

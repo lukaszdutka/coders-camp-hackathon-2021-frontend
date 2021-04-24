@@ -10,16 +10,29 @@ export class Rooms {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const roomsResponse = await response.json();
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
 
-            return roomsResponse;
+    static async getRoomById(id, token) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${id}`, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return await response.json();
         } catch (error) {
             Rooms.handleError(error);
         }
     }
 
     static async createRoom(room, token) {
-        // room = {name: "string", "questionsCollectionId": "2039ir23f023f9023" } //questionsCollection to id
+        // room = {name: "string", "questionsCollectionId": "2039ir23f023f9023" }
         try {
             const response = await fetch(Rooms.apiUrl, {
                 method: "POST",
@@ -30,16 +43,14 @@ export class Rooms {
                 },
                 body: JSON.stringify(room),
             });
-            const roomResponse = await response.json();
-
-            return roomResponse;
+            return await response.json();
         } catch (error) {
             Rooms.handleError(error);
         }
     }
 
-    static async editRoom(id, room, token) {
-        // room = {name: "room name", collectionId: "2039ir23f023f9023"}
+    static async changeRoomCollection(id, room, token) {
+        // room = { collectionId: "2039ir23f023f9023"}
         try {
             const response = await fetch(`${Rooms.apiUrl}/${id}`, {
                 method: "PATCH",
@@ -48,10 +59,63 @@ export class Rooms {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
+                body: JSON.stringify(room),
             });
-            const editRoomResponse = await response.json();
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
 
-            return editRoomResponse;
+    static async changeRoomName(id, room, token) {
+        // room = {name: "room name"}
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${id}`, {
+                method: "PATCH",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(room),
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
+    static async pushActiveQuestion(id, room, token) {
+        // room = {selectedQuestionId: "2302340293r590"}
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${id}`, {
+                method: "PATCH",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(room),
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
+    static async updateGuests(id, guest, token) {
+        // guest = {email: "test@test.com", name: "Albus Dumbledore"}
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${id}`, {
+                method: "PATCH",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(guest),
+            });
+            return await response.json();
         } catch (error) {
             Rooms.handleError(error);
         }
