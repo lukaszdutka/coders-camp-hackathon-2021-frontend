@@ -11,8 +11,8 @@ import {
 import { Collections } from "../../api/collections";
 import { AppContext } from "../../Context";
 import EditIcon from "@material-ui/icons/Edit";
-import AnimatedModal from "../modals/AnimatedModal";
-import { QuestionsList } from "./QuestionsList";
+// import AnimatedModal from "../modals/AnimatedModal";
+// import { QuestionsList } from "./QuestionsList";
 
 export const CollectionsList = () => {
     const { token } = useContext(AppContext);

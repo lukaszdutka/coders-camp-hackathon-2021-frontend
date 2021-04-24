@@ -1,19 +1,14 @@
-import {
-    Collapse,
-    IconButton,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    Tooltip,
-} from "@material-ui/core";
+import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Tooltip } from "@material-ui/core";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import SendIcon from "@material-ui/icons/Send";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Rooms } from "../../../api/rooms";
+import { AppContext } from "../../../Context";
 
-export const QuestionListItem = ({ question }) => {
+export const QuestionListItem = ({ question, roomId }) => {
+    const { token } = useContext(AppContext);
+
     const defaultTime = question.timeForAnswer !== undefined ? question.timeForAnswer : 10;
     const [seconds, setSeconds] = useState(defaultTime);
     const [counter, setCounter] = useState(defaultTime);
@@ -39,6 +34,9 @@ export const QuestionListItem = ({ question }) => {
     }, [isActive, counter]);
 
     const itemClicked = () => {
+        if (!isActive) {
+            Rooms.pushActiveQuestion(roomId, { selectedQuestionId: question._id }, token);
+        }
         setIsActive(true);
     };
 
@@ -54,18 +52,16 @@ export const QuestionListItem = ({ question }) => {
     };
 
     return (
-        <ListItem key={question.id} disabled={isGrayedOut} button onClick={itemClicked}>
+        <ListItem disabled={isGrayedOut} button onClick={itemClicked}>
             <ListItemIcon>
                 <QuestionAnswerIcon />
             </ListItemIcon>
-            <ListItem>
-                <Tooltip title={"Ask this question"}>
-                    <ListItemText primary={`${question.text}`} />
-                </Tooltip>
-            </ListItem>
-            <Collapse in={true} unmountOnExit>
-                <List>{listAnswers()}</List>
-            </Collapse>
+            <Tooltip title={"Ask this question"}>
+                <ListItemText primary={`${question.text}`} />
+            </Tooltip>
+            {/*<Collapse in={true} unmountOnExit>*/}
+            {/*    <List>{listAnswers()}</List>*/}
+            {/*</Collapse>*/}
             {seconds}
             <ListItemSecondaryAction>
                 <Tooltip title={"Ask this question"}>
@@ -79,6 +75,6 @@ export const QuestionListItem = ({ question }) => {
 };
 
 QuestionListItem.propTypes = {
-    question: PropTypes.object,
-    onItemClicked: PropTypes.func,
+    question: PropTypes.object.isRequired,
+    roomId: PropTypes.string.isRequired,
 };
