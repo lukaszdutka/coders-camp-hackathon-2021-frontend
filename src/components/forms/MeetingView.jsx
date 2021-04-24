@@ -1,8 +1,11 @@
 import "../../App.css";
-import { Container, List, ListItem, makeStyles, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Container, Divider, Grid, List, ListItem, makeStyles, Paper, Typography } from "@material-ui/core";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
+import { AppContext } from "../../Context";
+import { Rooms } from "../../api/rooms";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,48 +18,98 @@ const useStyles = makeStyles((theme) => ({
     title: {
         margin: theme.spacing(4, 0, 2),
     },
+    smallPadding: {
+        padding: "10px",
+    },
 }));
 
-export const MeetingView = ({ roomId }) => {
+export const MeetingView = () => {
+    // export const MeetingView = () => {
+    //     const roomId = "6083c31a612ed37248485983";
+    const { id } = useParams();
+    const roomId = id;
+
     const classes = useStyles();
-    const [questions, setQuestions] = useState([]);
+    const { token } = useContext(AppContext);
+
+    const [room, setRoom] = useState({});
+    const [questionCollection, setQuestionCollection] = useState({});
+    const [guests, setGuests] = useState([]);
 
     useEffect(() => {
-        setQuestions(getQuestionsByRoomId(roomId));
-    }, [roomId]);
+        let interval = setInterval(async () => {
+            console.log("refresh guests with: " + roomId);
+            let roomResponse = await Rooms.getRoomById(roomId, token);
+            setGuests(roomResponse.guests);
 
-    const getQuestionsByRoomId = (roomId) => {
-        console.log("Questions got from server"); //todo api call
-        return [
-            {
-                id: "1",
-                text: "What is love?",
-            },
-            {
-                id: "2",
-                text: "Baby don't hurt me?",
-            },
-            {
-                id: "3",
-                text: "What is REST?",
-            },
-        ];
-    };
+            return () => {
+                console.log("Clear interval: " + interval + " , " + roomId);
+                clearInterval(interval);
+            };
+        }, 2000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [roomId, token]);
 
-    const listItems = () => {
-        if (!questions || questions.length === 0) {
+    useEffect(() => {
+        const fetchRoom = async () => {
+            let roomResponse = await Rooms.getRoomById(roomId, token);
+
+            setRoom(roomResponse);
+            setQuestionCollection(roomResponse.questionsCollectionId); //Note: its named "id" but it's whole object XD
+            setGuests(roomResponse.guests);
+
+            return roomResponse;
+        };
+        fetchRoom();
+    }, [roomId, token]);
+
+    const listQuestions = () => {
+        if (!questionCollection.questions || questionCollection.questions.length === 0) {
             return <ListItem> There are no questions </ListItem>;
         }
-        return questions.map((question) => {
-            return <QuestionListItem key={question.id} question={question} />;
+        return questionCollection.questions.map((question) => {
+            return <QuestionListItem key={question._id} question={question} roomId={roomId} />;
         });
     };
+
+    const listGuests = () => {
+        if (!guests || guests.length === 0) {
+            return <ListItem> There are no guests</ListItem>;
+        } else {
+            return guests.map((guest) => <ListItem key={guest.email}>{guest.email}</ListItem>);
+        }
+    };
     return (
-        <Container maxWidth="sm" style={{ paddingTop: "40%" }}>
-            <Typography variant="h6">Questions</Typography>
-            <div className={classes.demo}>
-                <List>{listItems()}</List>
-            </div>
+        <Container maxWidth="lg" className={classes.smallPadding}>
+            <Typography variant="h4" className={classes.smallPadding}>
+                Room {room.name}
+            </Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+                    <Paper>
+                        <Typography variant="h6" className={classes.smallPadding}>
+                            Questions of {questionCollection.name}
+                        </Typography>
+                        <Divider />
+                        <div className={classes.demo}>
+                            <List>{listQuestions()}</List>
+                        </div>
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                    <Paper>
+                        <Typography variant="h6" className={classes.smallPadding}>
+                            Attendants
+                        </Typography>
+                        <Divider />
+                        <div className={classes.demo}>
+                            <List>{listGuests()}</List>
+                        </div>
+                    </Paper>
+                </Grid>
+            </Grid>
         </Container>
     );
 };

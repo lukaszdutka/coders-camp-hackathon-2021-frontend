@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Grid, Typography, FormControl, Select, MenuItem } from "@material-ui/core";
+import { Button, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { LoginForm } from "../../components/forms/LoginForm";
 import { RegisterForm } from "../../components/forms/RegisterForm";
 import homeImg from "./homeImg.jpg";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     loginDiv: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export const Home = () => {
     const classes = useStyles();
     const [action, setAction] = useState("login");
+    const history = useHistory();
 
     const handleChange = (event) => {
         setAction(event.target.value);
@@ -40,8 +42,7 @@ export const Home = () => {
         >
             <Grid item md={6} xs={12}>
                 <div className={classes.loginDiv}>
-                    
-                    {action === "login" ? <LoginForm  /> : <RegisterForm setAction={setAction} />}
+                    {action === "login" ? <LoginForm /> : <RegisterForm setAction={setAction} />}
                     <div className={classes.action}>
                         <FormControl>
                             <Select value={action} onChange={handleChange}>
@@ -51,6 +52,7 @@ export const Home = () => {
                         </FormControl>
                     </div>
                 </div>
+                <Button onClick={() => history.push("/mentor/question")}>Guzik</Button>
             </Grid>
             <Grid item md={6} xs={12}>
                 <div className={classes.loginDiv}>

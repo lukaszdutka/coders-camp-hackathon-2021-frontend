@@ -9,7 +9,7 @@ import { AppContext } from "../Context";
 
 const useStyles = makeStyles((theme) => ({
     rootNav: {
-        flexGrow: 1,
+        // flexGrow: 1, //todo it breaks Meeting View
     },
     titleNav: {
         flexGrow: 1,
@@ -47,7 +47,7 @@ export const Nav = () => {
                             )}
                             <Button
                                 variant="contained"
-                                color="primary"
+                                color="secondary"
                                 startIcon={<ExitToAppIcon />}
                                 onClick={handleLogout}
                             >
