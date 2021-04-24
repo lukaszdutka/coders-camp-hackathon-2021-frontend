@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { FormGroup, Button, CircularProgress } from "@material-ui/core";
 import * as yup from "yup";
-import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 
 import { EmailInput, PasswordInput } from "../inputs";
 import { Server } from "../../api/server";
 import { UsernameInput } from "../inputs/usernameInput/name";
 
-export const RegisterForm = () => {
-    const history = useHistory();
+export const RegisterForm = ({ setAction }) => {
     const [formError, setFormError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -31,7 +29,6 @@ export const RegisterForm = () => {
         setFormError("");
         if (!loading) setLoading(() => true);
         const result = await Server.register(values);
-
         if (result.error) {
             if (result.statusCode === 401) {
                 setFormError("Invalid credentials");
@@ -41,7 +38,8 @@ export const RegisterForm = () => {
             setSubmitting(false);
         } else {
             setSubmitting(false);
-            history.push("/");
+            setFormError("Account successfully created!")
+            setTimeout(() => setAction('login'), 2000);
         }
         setLoading(() => false);
     };
