@@ -5,7 +5,7 @@ import { Profile } from "../views/profile/Profile";
 import PrivateRoute from "./PrivateRoute";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppContext } from "../Context";
-import { MeetingView } from "../components/forms/MeetingView";
+
 const useStyles = makeStyles((theme) => ({
     rootMain: {
         flexGrow: 1,
@@ -20,7 +20,6 @@ export const AppSwitch = () => {
         <main className={classes.rootMain}>
             <Switch>
                 <Route exact path="/" render={() => (token ? <Profile /> : <Home />)} />
-                <Route exact path="/mentor/question" component={MeetingView} />
                 <PrivateRoute exact path="/profile" component={Profile} />
             </Switch>
         </main>
