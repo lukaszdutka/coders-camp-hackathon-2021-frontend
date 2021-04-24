@@ -4,11 +4,17 @@ import SendIcon from "@material-ui/icons/Send";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-export const QuestionListItem = ({ question }) => {
+export const QuestionListItem = ({ questionId }) => {
     const [seconds, setSeconds] = useState(10);
     const [counter, setCounter] = useState(10);
     const [isActive, setIsActive] = useState(false);
     const [isGrayedOut, setIsGrayedOut] = useState(false);
+    const [question, setQuestion] = useState({});
+
+    useEffect(() => {
+        //todo request to get question
+
+    }, [questionId]);
 
     useEffect(() => {
         let intervalId;

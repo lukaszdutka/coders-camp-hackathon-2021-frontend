@@ -1,8 +1,10 @@
 import "../../App.css";
 import { Container, List, ListItem, makeStyles, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
+import { AppContext } from "../../Context";
+import { Rooms } from "../../api/rooms";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,38 +19,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const MeetingView = ({ roomId }) => {
+export const MeetingView = () => {
+    const roomId = "6083674df431802ac14a0206";
+    const { token } = useContext(AppContext);
+
     const classes = useStyles();
-    const [questions, setQuestions] = useState([]);
+    const [questionIds, setQuestionIds] = useState([]);
+    const [collectionName, setCollectionName] = useState("");
 
-    useEffect(() => {
-        setQuestions(getQuestionsByRoomId(roomId));
-    }, [roomId]);
+    useEffect(async () => {
+        let rooms = await Rooms.getRooms(token);
+        console.log(rooms[0]);
+        let room = rooms[0];
+        setCollectionName(room.questionsCollection.name);
+        setQuestionIds(room.questionsCollection.questions);
 
-    const getQuestionsByRoomId = (roomId) => {
-        console.log("Questions got from server"); //todo api call
-        return [
-            {
-                id: "1",
-                text: "What is love?",
-            },
-            {
-                id: "2",
-                text: "Baby don't hurt me?",
-            },
-            {
-                id: "3",
-                text: "What is REST?",
-            },
-        ];
-    };
+        // setQuestions(getQuestionsByRoomId(roomId));
+    }, [roomId, token]);
 
     const listItems = () => {
-        if (!questions || questions.length === 0) {
+        if (!questionIds || questionIds.length === 0) {
             return <ListItem> There are no questions </ListItem>;
         }
-        return questions.map((question) => {
-            return <QuestionListItem key={question.id} question={question} />;
+        return questionIds.map((questionId) => {
+            return <QuestionListItem key={questionId} questionId={questionId} />;
         });
     };
     return (
