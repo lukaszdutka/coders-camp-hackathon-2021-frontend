@@ -86,7 +86,7 @@ export class Collections {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(question),
+                body: JSON.stringify({ question }),
             });
             return await response.json();
         } catch (error) {
