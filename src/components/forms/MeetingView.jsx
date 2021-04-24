@@ -1,5 +1,6 @@
 import "../../App.css";
 import {
+    Button,
     Container,
     Divider,
     Grid,
@@ -97,11 +98,30 @@ export const MeetingView = () => {
             ));
         }
     };
+
+    const closeRoom = () => {
+        Rooms.closeRoom(roomId, token);
+    };
     return (
         <Container maxWidth="lg" className={classes.smallPadding}>
-            <Typography variant="h4" className={classes.smallPadding}>
-                Room {room.name}
-            </Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+                    <Typography variant="h4" className={classes.smallPadding}>
+                        Room {room.name}
+                    </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                    <Button
+                        style={{ marginTop: "10px", marginLeft: "33%" }}
+                        variant={"outlined"}
+                        color={"primary"}
+                        onClick={closeRoom}
+                    >
+                        Close room
+                    </Button>
+                </Grid>
+            </Grid>
+
             <Grid container spacing={2}>
                 <Grid item xs={8}>
                     <Paper>

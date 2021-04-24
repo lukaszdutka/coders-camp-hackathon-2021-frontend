@@ -158,6 +158,19 @@ export class Rooms {
         }
     }
 
+    static async closeRoom(roomId, token) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/close`, {
+                method: "PATCH",
+                mode: "cors", //no auth needed
+                Authorization: `Bearer ${token}`,
+            });
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
     static handleError(error) {
         console.log(error);
     }
