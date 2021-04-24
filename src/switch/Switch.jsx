@@ -7,6 +7,7 @@ import PrivateRoute from "./PrivateRoute";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppContext } from "../Context";
 import { MeetingView } from "../components/forms/MeetingView";
+import { MentorSummaryView } from "../components/forms/MentorSummaryView";
 
 const useStyles = makeStyles((theme) => ({
     rootMain: {
@@ -25,6 +26,7 @@ export const AppSwitch = () => {
                 <Route exact path="/guest/:id" render={() => (token ? <Profile /> : <Guest />)} />
                 <PrivateRoute exact path="/profile" component={Profile} />
                 <PrivateRoute path="/room/:id" component={MeetingView} />
+                <PrivateRoute path="/summary/:id" component={MentorSummaryView} />
             </Switch>
         </main>
     );

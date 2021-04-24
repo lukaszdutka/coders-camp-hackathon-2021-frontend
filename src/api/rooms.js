@@ -103,7 +103,7 @@ export class Rooms {
     static async updateGuests(id, guest) {
         // guest = {email: "test@test.com", name: "Albus Dumbledore"}
         try {
-            const response = await fetch(`${Rooms.apiUrl}/${id}`, {
+            const response = await fetch(`${Rooms.apiUrl}/${id}/guests`, {
                 method: "PATCH",
                 mode: "cors",
                 headers: {
@@ -134,6 +134,9 @@ export class Rooms {
             const response = await fetch(`${Rooms.apiUrl}/${roomId}/answers`, {
                 method: "POST",
                 mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({
                     questionId: questionId,
                     answer: answerIndex,
@@ -153,6 +156,21 @@ export class Rooms {
                 mode: "cors", //no auth needed
             });
 
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
+    static async getMentorSummary(roomId, token) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/summary`, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             return await response.json();
         } catch (error) {
             Rooms.handleError(error);
