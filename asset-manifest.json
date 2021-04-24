@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/coders-camp-hackathon-2021-frontend/static/css/main.61be61f6.chunk.css",
-    "main.js": "/coders-camp-hackathon-2021-frontend/static/js/main.b83db159.chunk.js",
-    "main.js.map": "/coders-camp-hackathon-2021-frontend/static/js/main.b83db159.chunk.js.map",
+    "main.js": "/coders-camp-hackathon-2021-frontend/static/js/main.2bb84b18.chunk.js",
+    "main.js.map": "/coders-camp-hackathon-2021-frontend/static/js/main.2bb84b18.chunk.js.map",
     "runtime-main.js": "/coders-camp-hackathon-2021-frontend/static/js/runtime-main.8ba63c1e.js",
     "runtime-main.js.map": "/coders-camp-hackathon-2021-frontend/static/js/runtime-main.8ba63c1e.js.map",
     "static/js/2.02cf5c88.chunk.js": "/coders-camp-hackathon-2021-frontend/static/js/2.02cf5c88.chunk.js",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.8ba63c1e.js",
     "static/js/2.02cf5c88.chunk.js",
     "static/css/main.61be61f6.chunk.css",
-    "static/js/main.b83db159.chunk.js"
+    "static/js/main.2bb84b18.chunk.js"
   ]
 }
