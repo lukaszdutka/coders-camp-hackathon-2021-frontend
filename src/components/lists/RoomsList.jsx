@@ -49,7 +49,7 @@ export const RoomsList = () => {
 
     const handleCopyLink = (roomId) => {
         // delete localhost for deployment
-        copy(`${process.env.PUBLIC_URL}/guest/${roomId}`);
+        copy(`https://lukaszdutka.github.io/coders-camp-hackathon-2021-frontend/guest/${roomId}`);
     };
 
     const handleGoToRoom = (roomId) => {
