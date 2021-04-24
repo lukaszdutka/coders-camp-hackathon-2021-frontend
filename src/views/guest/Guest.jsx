@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Rooms } from "../../api/rooms";
 import { GuestForm } from "../../components/forms/GuestForm";
-import { Paper, Typography } from "@material-ui/core";
+import { Typography, Paper } from "@material-ui/core";
 import { Question } from "../../components/forms/Question";
 
 export const Guest = () => {
