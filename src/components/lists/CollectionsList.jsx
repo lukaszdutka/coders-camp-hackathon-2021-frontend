@@ -9,6 +9,7 @@ import {
     CircularProgress,
     Button,
     makeStyles,
+    Divider,
 } from "@material-ui/core";
 import { Collections } from "../../api/collections";
 import { AppContext } from "../../Context";
