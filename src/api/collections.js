@@ -12,8 +12,6 @@ export class Collections {
             });
             const collectionsResponse = await response.json();
 
-            if (!response.ok) collectionsResponse.error = true;
-
             return collectionsResponse;
         } catch (error) {
             Collections.handleError(error);
@@ -30,8 +28,6 @@ export class Collections {
                 },
             });
             const collectionBody = await response.json();
-
-            if (!response.ok) collectionBody.error = true;
 
             return {
                 id: collectionBody._id,
@@ -57,8 +53,6 @@ export class Collections {
             });
             const collectionResponse = await response.json();
 
-            if (!response.ok) collectionResponse.error = true;
-
             return collectionResponse;
         } catch (error) {
             Collections.handleError(error);
@@ -79,8 +73,6 @@ export class Collections {
             });
             const collectionResponse = await response.json();
 
-            if (!response.ok) collectionResponse.error = true;
-
             return collectionResponse;
         } catch (error) {
             Collections.handleError(error);
@@ -100,8 +92,6 @@ export class Collections {
                 body: JSON.stringify(question),
             });
             const questionResponse = await response.json();
-
-            if (!response.ok) questionResponse.error = true;
 
             return questionResponse;
         } catch (error) {
