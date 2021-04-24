@@ -41,7 +41,7 @@ export const Home = () => {
             <Grid item md={6} xs={12}>
                 <div className={classes.loginDiv}>
                     
-                    {action === "login" ? <LoginForm /> : <RegisterForm />}
+                    {action === "login" ? <LoginForm  /> : <RegisterForm setAction={setAction} />}
                     <div className={classes.action}>
                         <FormControl>
                             <Select value={action} onChange={handleChange}>

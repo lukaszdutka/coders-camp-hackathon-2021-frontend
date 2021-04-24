@@ -21,9 +21,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Nav = () => {
-    const { token } = useContext(AppContext);
+    const { token, profile, clearToken, clearProfile } = useContext(AppContext);
     const classes = useStyles();
     const matches = useMediaQuery("(min-width:600px)");
+
+    const handleLogout = () => {
+        clearProfile();
+        clearToken();
+    };
 
     return (
         <div className={classes.rootNav}>
@@ -33,12 +38,23 @@ export const Nav = () => {
                     <Typography className={classes.titleNav} variant="h6">
                         Questio
                     </Typography>
-                    <Typography variant="h6" noWrap className={classes.welcomeTitle}>
-                        Łukasz
-                    </Typography>
-                    <Button variant="contained" color="primary" startIcon={<ExitToAppIcon />}>
-                        {matches && "Log out"}
-                    </Button>
+                    {token && (
+                        <>
+                            {profile && (
+                                <Typography variant="h6" noWrap className={classes.welcomeTitle}>
+                                    {profile.name}
+                                </Typography>
+                            )}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                startIcon={<ExitToAppIcon />}
+                                onClick={handleLogout}
+                            >
+                                {matches && "Log out"}
+                            </Button>
+                        </>
+                    )}
                 </Toolbar>
             </AppBar>
         </div>
