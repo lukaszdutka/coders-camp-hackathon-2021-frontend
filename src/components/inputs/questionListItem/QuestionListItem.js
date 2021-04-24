@@ -34,8 +34,10 @@ export const QuestionListItem = ({ question, roomId }) => {
     }, [isActive, counter]);
 
     const itemClicked = () => {
+        if (!isActive) {
+            Rooms.pushActiveQuestion(roomId, { selectedQuestionId: question._id }, token);
+        }
         setIsActive(true);
-        Rooms.pushActiveQuestion(roomId, question.id, token);
     };
 
     const listAnswers = () => {
