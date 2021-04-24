@@ -20,22 +20,29 @@ const useStyles = makeStyles((theme) => ({
         flexBasis: "40%",
         // minidth: "1000px",
     },
-    // loginImg: {
-    //     border: "6px solid #91C43B",
-    //     borderRadius: "10%",
-    //     marginTop: "25px",
-    // },
-    // action: {
-    //     marginTop: "30px",
-    // },
-    // paddingBot: {
-    //     marginTop: "80px",
-    //     paddingBottom: "30px",
-    // },
-    // paddingBotBig: {
-    //     marginTop: "40px",
-    //     marginBottom: "60px",
-    // },
+    guestPaperContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "1rem",
+        borderRadius: "10%",
+        marginTop: "25px",
+    },
+    guestPaperInfoContainer: {
+        padding: "2rem",
+        minWidth: "400px",
+        lineHeight: "3rem",
+        textAlign:"center",
+    },
+    guestQuestionContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minWidth: "80%",
+        padding: "2rem",
+        lineHeight: "3rem",
+        textAlign:"center",
+    },
 }));
 
 export const Guest = () => {
@@ -64,18 +71,24 @@ export const Guest = () => {
                 {!guestName && !guestEmail ? (
                     <GuestForm roomId={id} setGuestEmail={setGuestEmail} setGuestName={setGuestName} />
                 ) : (
+                    <div className={classes.guestPaperContainer}>
                     <Paper>
+                    <div className={classes.guestPaperInfoContainer}>
                         <Typography variant="h5">Welcome {guestName}</Typography>
                         <Typography variant="body1">Please wait for questions</Typography>
+                    </div>
                     </Paper>
+                    </div>
                 )}
                 {activeQuestion.activeQuestion && guestName && guestEmail && (
+                    <div className={classes.guestQuestionContainer}>
                     <Question
                         question={activeQuestion}
                         setActiveQuestion={setActiveQuestion}
                         roomId={id}
                         email={guestEmail}
                     />
+                    </div>
                 )}
             </div>
         </div>
