@@ -1,9 +1,9 @@
 export class Server {
-    static apiUrl = "https://camp-hackathon-2021-backend.herokuapp.com/api";
+    static apiUrl = "https://camp-hackathon-2021-backend.herokuapp.com/api/users";
 
     static async login(values) {
         try {
-            const response = await fetch(Server.apiUrl + "/users/login", {
+            const response = await fetch(Server.apiUrl + "/login", {
                 method: "POST",
                 mode: "cors",
                 headers: {
@@ -23,7 +23,7 @@ export class Server {
 
     static async register(values) {
         try {
-            const response = await fetch(Server.apiUrl + "/users/register", {
+            const response = await fetch(Server.apiUrl + "/register", {
                 method: "POST",
                 mode: "cors",
                 headers: {
