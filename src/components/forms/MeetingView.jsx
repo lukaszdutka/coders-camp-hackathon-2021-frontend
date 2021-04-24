@@ -105,6 +105,7 @@ export const MeetingView = () => {
         Rooms.closeRoom(roomId, token);
         history.push(`/summary/${roomId}`);
     };
+
     return (
         <Container maxWidth="lg" className={classes.smallPadding}>
             <Grid container spacing={2}>
