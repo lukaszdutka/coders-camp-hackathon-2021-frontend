@@ -44,7 +44,7 @@ export const LoginForm = () => {
             setNewToken(result.token);
 
             setSubmitting(false);
-            history.push("/");
+            history.push("/profile");
         }
         setLoading(() => false);
     };
