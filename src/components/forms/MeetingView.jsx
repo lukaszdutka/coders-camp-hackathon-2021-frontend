@@ -34,6 +34,8 @@ export const MeetingView = () => {
     const [guests, setGuests] = useState([]);
 
     useEffect(() => {
+        // useParams()
+        // useLocation()
         const fetchRoom = async () => {
             let rooms = await Rooms.getRooms(token); //todo change to get single room
             let roomResponse = rooms.filter((r) => r._id === roomId)[0];
