@@ -75,6 +75,7 @@ export class Collections {
 
     static async addQuestionToCollection(id, question, token) {
         // question = {text: "string", answers: [...], correctAnswer: 0, timeForAnswer: 60}
+        console.log(id, question, token);
         try {
             const response = await fetch(`${Collections.apiUrl}/${id}`, {
                 method: "PATCH",
@@ -83,7 +84,7 @@ export class Collections {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(question),
+                body: JSON.stringify({ question }),
             });
             return await response.json();
         } catch (error) {
