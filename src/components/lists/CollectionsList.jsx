@@ -100,7 +100,7 @@ export const CollectionsList = () => {
                 <Typography variant="h6">Collections of Questions</Typography>
                 <Divider />
 
-                {!!collections.length ? (
+                {collections ? (
                     collections.map((collection) => {
                         return (
                             <ListItem key={collection._id}>
