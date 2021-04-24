@@ -5,26 +5,22 @@ import {
     Button,
     FormGroup,
     TextField,
-    FormControl,
-    InputLabel,
-    MenuItem,
 } from "@material-ui/core";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Rooms } from "../../api/rooms";
-import { Collections } from "../../api/collections";
 
 const validationSchema = yup.object({
     email: yup.string("Enter your e-mail").required("E-mail is required"),
     name: yup.string("Enter your name").required("Name is required"),
 });
 
-export const GuestForm = ({ id, setGuestEmail, setGuestName }) => {
+export const GuestForm = ({ roomId, setGuestEmail, setGuestName }) => {
     const [error, setError] = useState("");
 
     const onSubmit = async (values) => {
         setError(<CircularProgress />);
-        const result = await Rooms.updateGuests(id, { email: values.email, name: values.name });
+        const result = await Rooms.updateGuests(roomId, { email: values.email, name: values.name });
         if (!result.error) {
             setError("You successfully entered the room!");
             setGuestEmail(values.email);
@@ -66,7 +62,6 @@ export const GuestForm = ({ id, setGuestEmail, setGuestName }) => {
                     helperText={formik.touched.email && formik.errors.email}
                 />
                 <FormHelperText error>{error}</FormHelperText>
-
                 <Button type="submit">Submit</Button>
             </FormGroup>
         </form>
