@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FormGroup, Button, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, FormGroup } from "@material-ui/core";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
@@ -7,8 +7,16 @@ import { useFormik } from "formik";
 import { EmailInput, PasswordInput } from "../inputs";
 import { AppContext } from "../../Context";
 import { Server } from "../../api/server";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    smallPadding: {
+        padding: "10px 10px 10px 0",
+    },
+}));
 
 export const LoginForm = () => {
+    const classes = useStyles();
     const history = useHistory();
     const { setNewToken, setNewProfile } = useContext(AppContext);
     const [formError, setFormError] = useState("");
@@ -73,7 +81,7 @@ export const LoginForm = () => {
                     onChange={formik.handleChange}
                 />
                 <div id="formError">{formError}</div>
-                <div>
+                <div className={classes.smallPadding}>
                     <Button variant="outlined" color="primary" type="submit" disabled={formik.isSubmitting}>
                         Login
                     </Button>
