@@ -15,12 +15,20 @@ import { useFormik } from "formik";
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
 import { Collections } from "../../api/collections";
+import {makeStyles} from "@material-ui/core/styles";
 
 const validationSchema = yup.object({
     roomName: yup.string("Enter room name").required("Name of room is required"),
 });
+const useStyles = makeStyles(() => ({
+    padding: {
+        padding: "15px"
+    },
+}));
 
 export const CreateRoom = ({ handleClosePopup }) => {
+    const classes = useStyles();
+
     const { token } = useContext(AppContext);
     const [collections, setCollections] = useState([]);
     const [error, setError] = useState("");
@@ -65,7 +73,7 @@ export const CreateRoom = ({ handleClosePopup }) => {
 
     return (
         <form noValidate autoComplete="off" className="createRoom" onSubmit={formik.handleSubmit}>
-            <FormGroup>
+            <FormGroup className={classes.padding}>
                 <TextField
                     placeholder="Room name"
                     name="roomName"

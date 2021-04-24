@@ -1,5 +1,16 @@
 import "../../App.css";
-import { Container, Divider, Grid, List, ListItem, makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+    Button,
+    Container,
+    Divider,
+    Grid,
+    List,
+    ListItem,
+    ListItemText,
+    makeStyles,
+    Paper,
+    Typography,
+} from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { QuestionListItem } from "../inputs";
@@ -78,14 +89,39 @@ export const MeetingView = () => {
         if (!guests || guests.length === 0) {
             return <ListItem> There are no guests</ListItem>;
         } else {
-            return guests.map((guest) => <ListItem key={guest.email}>{guest.email}</ListItem>);
+            return guests.map((guest) => (
+                <ListItem key={guest.email}>
+                    <ListItemText secondary={guest.email}>
+                        <Typography variant="h6">{guest.name}</Typography>
+                    </ListItemText>
+                </ListItem>
+            ));
         }
+    };
+
+    const closeRoom = () => {
+        Rooms.closeRoom(roomId, token);
     };
     return (
         <Container maxWidth="lg" className={classes.smallPadding}>
-            <Typography variant="h4" className={classes.smallPadding}>
-                Room {room.name}
-            </Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+                    <Typography variant="h4" className={classes.smallPadding}>
+                        Room {room.name}
+                    </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                    <Button
+                        style={{ marginTop: "10px", marginLeft: "33%" }}
+                        variant={"outlined"}
+                        color={"primary"}
+                        onClick={closeRoom}
+                    >
+                        Close room
+                    </Button>
+                </Grid>
+            </Grid>
+
             <Grid container spacing={2}>
                 <Grid item xs={8}>
                     <Paper>

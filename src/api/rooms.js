@@ -16,14 +16,11 @@ export class Rooms {
         }
     }
 
-    static async getRoomById(id, token) {
+    static async getRoomById(id) {
         try {
             const response = await fetch(`${Rooms.apiUrl}/${id}`, {
                 method: "GET",
                 mode: "cors",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
             });
             return await response.json();
         } catch (error) {
@@ -156,6 +153,19 @@ export class Rooms {
                 mode: "cors", //no auth needed
             });
 
+            return await response.json();
+        } catch (error) {
+            Rooms.handleError(error);
+        }
+    }
+
+    static async closeRoom(roomId, token) {
+        try {
+            const response = await fetch(`${Rooms.apiUrl}/${roomId}/close`, {
+                method: "PATCH",
+                mode: "cors", //no auth needed
+                Authorization: `Bearer ${token}`,
+            });
             return await response.json();
         } catch (error) {
             Rooms.handleError(error);

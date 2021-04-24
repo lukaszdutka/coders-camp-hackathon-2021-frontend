@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button, FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import { FormControl, Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import { LoginForm } from "../../components/forms/LoginForm";
 import { RegisterForm } from "../../components/forms/RegisterForm";
 import homeImg from "./homeImg.jpg";
@@ -18,6 +18,14 @@ const useStyles = makeStyles((theme) => ({
     },
     action: {
         marginTop: "30px",
+    },
+    paddingBot: {
+        marginTop: "80px",
+        paddingBottom: "30px",
+    },
+    paddingBotBig: {
+        marginTop: "40px",
+        marginBottom: "60px",
     },
 }));
 
@@ -42,6 +50,13 @@ export const Home = () => {
         >
             <Grid item md={6} xs={12}>
                 <div className={classes.loginDiv}>
+                    <Typography className={classes.paddingBot} variant="h3">
+                        Engagement Tool
+                    </Typography>
+                    <Typography className={classes.paddingBotBig} variant="h5">
+                        Build better engagement of your remote teams with <b>Questio</b>! Check out how simple it is.
+                    </Typography>
+
                     {action === "login" ? <LoginForm /> : <RegisterForm setAction={setAction} />}
                     <div className={classes.action}>
                         <FormControl>
@@ -52,14 +67,13 @@ export const Home = () => {
                         </FormControl>
                     </div>
                 </div>
-                <Button onClick={() => history.push("/mentor/question")}>Guzik</Button>
             </Grid>
             <Grid item md={6} xs={12}>
                 <div className={classes.loginDiv}>
-                    <Typography align="center" variant="h4">
-                        No to distraction, yes to motivation!
-                    </Typography>
                     <img src={homeImg} alt="homeImage" width="95%" className={classes.loginImg} />
+                    <Typography className={classes.paddingBotBig} align="center" variant="h5">
+                        "If a man knows not which port he sails, no wind is favorable" - Seneca
+                    </Typography>
                 </div>
             </Grid>
         </Grid>

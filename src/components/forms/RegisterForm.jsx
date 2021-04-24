@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { FormGroup, Button, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, FormGroup } from "@material-ui/core";
 import * as yup from "yup";
 import { useFormik } from "formik";
 
 import { EmailInput, PasswordInput } from "../inputs";
 import { Server } from "../../api/server";
 import { UsernameInput } from "../inputs/usernameInput/name";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    smallPadding: {
+        padding: "10px 10px 10px 0",
+    },
+}));
 
 export const RegisterForm = ({ setAction }) => {
+    const classes = useStyles();
     const [formError, setFormError] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -38,8 +46,8 @@ export const RegisterForm = ({ setAction }) => {
             setSubmitting(false);
         } else {
             setSubmitting(false);
-            setFormError("Account successfully created!")
-            setTimeout(() => setAction('login'), 2000);
+            setFormError("Account successfully created!");
+            setTimeout(() => setAction("login"), 2000);
         }
         setLoading(() => false);
     };
@@ -75,7 +83,7 @@ export const RegisterForm = ({ setAction }) => {
                     onChange={formik.handleChange}
                 />
                 <div id="formError">{formError}</div>
-                <div>
+                <div className={classes.smallPadding}>
                     <Button variant="outlined" color="primary" type="submit" disabled={formik.isSubmitting}>
                         Register
                     </Button>

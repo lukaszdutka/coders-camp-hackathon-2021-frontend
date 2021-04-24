@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import {
-    Typography,
-    ListItem,
-    ListItemText,
-    List,
-    ListItemSecondaryAction,
-    CircularProgress,
     Button,
+    CircularProgress,
+    Divider,
+    List,
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+    Typography,
     useMediaQuery,
 } from "@material-ui/core";
 import { Rooms } from "../../api/rooms";
@@ -23,6 +24,7 @@ const useStyles = makeStyles(() => ({
     buttonModal: {
         display: "grid",
         justifyItems: "center",
+        paddingTop: "20px",
     },
 }));
 
@@ -96,6 +98,7 @@ export const RoomsList = () => {
     return (
         <List>
             <Typography variant="h6">Rooms</Typography>
+            <Divider />
             {isLoading ? <CircularProgress /> : roomList}
             <div className={classes.buttonModal}>
                 <Button variant="contained" color="secondary" startIcon={<AddIcon />} onClick={handleOpenPopup}>
