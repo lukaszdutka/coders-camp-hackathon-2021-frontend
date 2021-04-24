@@ -20,7 +20,9 @@ export const AppSwitch = () => {
         <main className={classes.rootMain}>
             <Switch>
                 <Route exact path="/" render={() => (token ? <Profile /> : <Home />)} />
+                <Route exact path="/guest/:id" component={() => <div>Guest</div>} />
                 <PrivateRoute exact path="/profile" component={Profile} />
+                <PrivateRoute path="/room/:id" component={() => <div>Meeting View</div>}/>
             </Switch>
         </main>
     );
