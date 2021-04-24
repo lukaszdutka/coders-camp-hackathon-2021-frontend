@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// export const MeetingView = ({roomId}) => {
 export const MeetingView = () => {
     const roomId = "6083674df431802ac14a0206";
     const { token } = useContext(AppContext);
@@ -26,18 +27,22 @@ export const MeetingView = () => {
     const classes = useStyles();
     const [questionIds, setQuestionIds] = useState([]);
     const [collectionName, setCollectionName] = useState("");
+    const [room, setRoom] = useState({});
 
-    useEffect(async () => {
-        let rooms = await Rooms.getRooms(token);
-        console.log(rooms[0]);
-        let room = rooms[0];
-        setCollectionName(room.questionsCollection.name);
-        setQuestionIds(room.questionsCollection.questions);
+    useEffect(() => {
+        const fetchRoom = async () => {
+            let rooms = await Rooms.getRooms(token); //todo change to get room
+            let roomResponse = rooms.filter((r) => r._id === roomId)[0];
 
-        // setQuestions(getQuestionsByRoomId(roomId));
+            setRoom(roomResponse);
+            setCollectionName(roomResponse.questionsCollection.name);
+            setQuestionIds(roomResponse.questionsCollection.questions);
+            return roomResponse;
+        };
+        fetchRoom();
     }, [roomId, token]);
 
-    const listItems = () => {
+    const listQuestions = () => {
         if (!questionIds || questionIds.length === 0) {
             return <ListItem> There are no questions </ListItem>;
         }
@@ -46,10 +51,11 @@ export const MeetingView = () => {
         });
     };
     return (
-        <Container maxWidth="sm" style={{ paddingTop: "40%" }}>
-            <Typography variant="h6">Questions</Typography>
+        <Container maxWidth="sm">
+            <Typography variant="h5">Room {room.name}</Typography>
+            <Typography variant="h6">Questions of {collectionName}</Typography>
             <div className={classes.demo}>
-                <List>{listItems()}</List>
+                <List>{listQuestions()}</List>
             </div>
         </Container>
     );

@@ -12,8 +12,15 @@ export const QuestionListItem = ({ questionId }) => {
     const [question, setQuestion] = useState({});
 
     useEffect(() => {
-        //todo request to get question
-
+        const fetchQuestion = () => {
+            //todo fetch question by id
+            const question = {
+                id: questionId,
+                text: "Jaki jest sens życia?",
+            };
+            setQuestion(question);
+        };
+        fetchQuestion()
     }, [questionId]);
 
     useEffect(() => {
