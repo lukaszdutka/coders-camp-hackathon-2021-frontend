@@ -35,9 +35,9 @@ export const CollectionsList = () => {
 
     return (
         <>
-            <AnimatedModal>
+            {/*<AnimatedModal>
                 <QuestionsList />
-            </AnimatedModal>
+            </AnimatedModal>*/}
             <List>
                 <Typography variant="h6">Collections of Questions</Typography>
                 {!!collections.length ? (
