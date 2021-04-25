@@ -2,6 +2,8 @@
 
 The first version of **Questio** was created during the CodersCamp Hackaton. The goal was to create an application that will help teams work and collaborate remotely.
 
+![Screenshot_2021-04-25 Questio](https://user-images.githubusercontent.com/44535712/116000625-55cafd80-a5f1-11eb-88d7-2b8b7c4d5341.png)
+
 ## The reason behind
 
 Recently the number of people, teams, organizations working remotely increased significantly. Each one of us needs to spend hours on online meetings.
