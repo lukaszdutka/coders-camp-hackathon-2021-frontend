@@ -155,6 +155,7 @@ export class Rooms {
                 method: "GET",
                 mode: "cors", //no auth needed
             });
+
             return await response.json();
         } catch (error) {
             Rooms.handleError(error);
