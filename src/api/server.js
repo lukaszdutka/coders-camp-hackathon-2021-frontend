@@ -13,6 +13,7 @@ export class Server {
             });
             const loginBody = await response.json();
 
+            if (!response.ok) return null;
             return { token: loginBody.token, profile: loginBody.user };
         } catch (error) {
             Server.handleError(error);
