@@ -40,8 +40,8 @@ export const LoginForm = () => {
         if (!loading) setLoading(() => true);
         const result = await Server.login(values);
 
-        if (result.error) {
-            if (result.statusCode === 401) {
+        if (!result || result.error) {
+            if (result?.statusCode === 401) {
                 setFormError("Invalid credentials");
             } else {
                 setFormError("Something went wrong");

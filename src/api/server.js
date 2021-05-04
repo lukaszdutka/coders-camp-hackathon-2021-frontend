@@ -13,6 +13,7 @@ export class Server {
             });
             const loginBody = await response.json();
 
+            if (!response.ok) return { error: loginBody.error || "Unauthorized", statusCode: response.status };
             return { token: loginBody.token, profile: loginBody.user };
         } catch (error) {
             Server.handleError(error);
