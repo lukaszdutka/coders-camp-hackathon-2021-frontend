@@ -63,6 +63,7 @@ export const Question = ({
 
         if (counter === -1) {
             setIsActive(false);
+            handleAnswer(-1).then();
         }
 
         return () => clearInterval(intervalId);
