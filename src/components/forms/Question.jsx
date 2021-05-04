@@ -49,7 +49,7 @@ export const Question = ({
 
     const [seconds, setSeconds] = useState(timeForAnswer);
     const [counter, setCounter] = useState(timeForAnswer);
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(true);
 
     useEffect(() => {
         let intervalId;
@@ -87,7 +87,9 @@ export const Question = ({
         <Paper>
             <div className={classes.guestQuestionItemsContainer}>
                 <Typography variant="h6">{text}</Typography>
-                <Typography variant="h4">{seconds} {seconds > 1 ? 'seconds left' : 'second left'}</Typography>
+                <Typography variant="h4">
+                    {seconds} {seconds > 1 ? "seconds left" : "second left"}
+                </Typography>
                 <div className={classes.guestQuestionItemAnswer}>{answers && answerList}</div>
             </div>
         </Paper>
