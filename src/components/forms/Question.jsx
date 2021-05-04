@@ -1,20 +1,17 @@
-import { Button, AppBar, Toolbar, Typography, Paper } from "@material-ui/core";
-import { CodeSharp } from "@material-ui/icons";
+import { Button, Paper, Typography } from "@material-ui/core";
 import { Rooms } from "../../api/rooms";
 import { makeStyles } from "@material-ui/core/styles";
-
-
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
     guestQuestionItemsContainer: {
-        
         // justifyContent: "center",
         // alignItems: "center",
         padding: "2rem",
         // margin: "2rem",
         minWidth: "40vw",
         lineHeight: "3rem",
-        textAlign:"center",
+        textAlign: "center",
     },
     guestQuestionItemAnswer: {
         display: "flex",
@@ -26,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "2rem",
         padding: "2rem",
         // lineHeight: "3rem",
-        textAlign:"center",
+        textAlign: "center",
     },
     guestQuestionItemAnswerButton: {
         display: "flex",
@@ -37,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         // margin: "2rem",
         padding: "0.5rem",
         // lineHeight: "3rem",
-        textAlign:"center",
+        textAlign: "center",
     },
 }));
 export const Question = ({
@@ -50,6 +47,27 @@ export const Question = ({
 }) => {
     const classes = useStyles();
 
+    const [seconds, setSeconds] = useState(timeForAnswer);
+    const [counter, setCounter] = useState(timeForAnswer);
+    const [isActive, setIsActive] = useState(false);
+
+    useEffect(() => {
+        let intervalId;
+
+        if (isActive) {
+            intervalId = setInterval(() => {
+                setSeconds(counter);
+                setCounter((counter) => counter - 1);
+            }, 1000);
+        }
+
+        if (counter === -1) {
+            setIsActive(false);
+        }
+
+        return () => clearInterval(intervalId);
+    }, [isActive, counter]);
+
     const handleAnswer = async (index) => {
         const res = await Rooms.postAnswer(roomId, _id, index, email);
         console.log(roomId, _id, index, email);
@@ -59,19 +77,18 @@ export const Question = ({
 
     const answerList = answers.map((answer, index) => (
         <div className={classes.guestQuestionItemAnswerButton}>
-        <Button variant="contained" color="secondary" onClick={() => handleAnswer(index)}>
-            {answer}
-        </Button>
+            <Button variant="contained" color="secondary" onClick={() => handleAnswer(index)}>
+                {answer}
+            </Button>
         </div>
     ));
     return (
         <Paper>
-        <div className={classes.guestQuestionItemsContainer}>
-            <Typography variant="h6">{text}</Typography>
-        <div className={classes.guestQuestionItemAnswer}>
-            {answers && answerList}
-        </div>
-        </div>
+            <div className={classes.guestQuestionItemsContainer}>
+                <Typography variant="h6">{text}</Typography>
+                <Typography variant="h4">{seconds} {seconds > 1 ? 'seconds left' : 'second left'}</Typography>
+                <div className={classes.guestQuestionItemAnswer}>{answers && answerList}</div>
+            </div>
         </Paper>
     );
 };

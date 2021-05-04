@@ -73,7 +73,7 @@ export const CollectionsList = () => {
     async function getCollections(result) {
         const collections = await result;
 
-        if (!collections.error) setCollections(collections.reverse());
+        if (!collections.error && Array.isArray(collections)) setCollections(collections.reverse());
     }
 
     useEffect(() => {
