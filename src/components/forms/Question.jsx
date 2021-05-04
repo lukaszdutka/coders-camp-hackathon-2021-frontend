@@ -49,7 +49,11 @@ export const Question = ({
 
     const [seconds, setSeconds] = useState(timeForAnswer);
     const [counter, setCounter] = useState(timeForAnswer);
-    const [isActive, setIsActive] = useState(true);
+    const [isActive, setIsActive] = useState(false);
+
+    useEffect(() => {
+        setIsActive(true);
+    }, []);
 
     useEffect(() => {
         let intervalId;
