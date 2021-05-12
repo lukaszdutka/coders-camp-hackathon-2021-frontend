@@ -6,8 +6,6 @@ import { Typography, Paper } from "@material-ui/core";
 import { Question } from "../../components/forms/Question";
 import { makeStyles } from "@material-ui/core/styles";
 
-
-
 const useStyles = makeStyles((theme) => ({
     guestBeginningFormContainer: {
         width: "100%",
@@ -32,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem",
         minWidth: "400px",
         lineHeight: "3rem",
-        textAlign:"center",
+        textAlign: "center",
     },
     guestQuestionContainer: {
         display: "flex",
@@ -41,14 +39,13 @@ const useStyles = makeStyles((theme) => ({
         minWidth: "80%",
         padding: "2rem",
         lineHeight: "3rem",
-        textAlign:"center",
+        textAlign: "center",
     },
 }));
 
 export const Guest = () => {
     const classes = useStyles();
     const { id } = useParams();
-    const [room, setRoom] = useState(null);
     const [guestName, setGuestName] = useState("");
     const [guestEmail, setGuestEmail] = useState("");
     const [activeQuestion, setActiveQuestion] = useState({});
@@ -72,22 +69,22 @@ export const Guest = () => {
                     <GuestForm roomId={id} setGuestEmail={setGuestEmail} setGuestName={setGuestName} />
                 ) : (
                     <div className={classes.guestPaperContainer}>
-                    <Paper>
-                    <div className={classes.guestPaperInfoContainer}>
-                        <Typography variant="h5">Welcome {guestName}</Typography>
-                        <Typography variant="body1">Please wait for questions</Typography>
-                    </div>
-                    </Paper>
+                        <Paper>
+                            <div className={classes.guestPaperInfoContainer}>
+                                <Typography variant="h5">Welcome {guestName}</Typography>
+                                <Typography variant="body1">Please wait for questions</Typography>
+                            </div>
+                        </Paper>
                     </div>
                 )}
                 {activeQuestion.activeQuestion && guestName && guestEmail && (
                     <div className={classes.guestQuestionContainer}>
-                    <Question
-                        question={activeQuestion}
-                        setActiveQuestion={setActiveQuestion}
-                        roomId={id}
-                        email={guestEmail}
-                    />
+                        <Question
+                            question={activeQuestion}
+                            setActiveQuestion={setActiveQuestion}
+                            roomId={id}
+                            email={guestEmail}
+                        />
                     </div>
                 )}
             </div>

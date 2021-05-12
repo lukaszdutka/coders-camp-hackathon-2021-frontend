@@ -40,16 +40,16 @@ export const QuestionListItem = ({ question, roomId }) => {
         setIsActive(true);
     };
 
-    const listAnswers = () => {
-        // todo: list answers
-        // if (!question || !question.answers || question.answers.length === 0) {
-        //     return <ListItemText>No answers</ListItemText>;
-        // }
-        // return question.answers.map((answer, index) => {
-        //     return <ListItemText key={index}>{answer}</ListItemText>;
-        // });
-        return undefined;
-    };
+    //const listAnswers = () => {
+    // todo: list answers
+    // if (!question || !question.answers || question.answers.length === 0) {
+    //     return <ListItemText>No answers</ListItemText>;
+    // }
+    // return question.answers.map((answer, index) => {
+    //     return <ListItemText key={index}>{answer}</ListItemText>;
+    // });
+    //  return undefined;
+    //};
 
     return (
         <ListItem disabled={isGrayedOut} button onClick={itemClicked}>
