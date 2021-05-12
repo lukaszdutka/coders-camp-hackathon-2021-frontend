@@ -71,6 +71,7 @@ export const Question = ({
         }
 
         return () => clearInterval(intervalId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActive, counter]);
 
     const handleAnswer = async (index) => {

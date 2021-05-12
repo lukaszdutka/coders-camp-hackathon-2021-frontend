@@ -4,7 +4,6 @@ import { LoginForm } from "../../components/forms/LoginForm";
 import { RegisterForm } from "../../components/forms/RegisterForm";
 import homeImg from "./homeImg.jpg";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     loginDiv: {
@@ -32,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 export const Home = () => {
     const classes = useStyles();
     const [action, setAction] = useState("login");
-    const history = useHistory();
 
     const handleChange = (event) => {
         setAction(event.target.value);
