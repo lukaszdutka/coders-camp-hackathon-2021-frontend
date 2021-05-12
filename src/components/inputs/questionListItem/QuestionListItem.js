@@ -36,7 +36,6 @@ export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQues
 
     const itemClicked = () => {
         if (!hasBeenSent && !isQuestionActive) {
-            console.log(hasBeenSent, isQuestionActive);
             Rooms.pushActiveQuestion(roomId, { selectedQuestionId: question._id }, token);
             setIsQuestionActive(true);
             setHasBeenSent(true);

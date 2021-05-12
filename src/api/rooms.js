@@ -22,7 +22,11 @@ export class Rooms {
                 method: "GET",
                 mode: "cors",
             });
-            return await response.json();
+            if (!response.ok) throw new Error(response.error || response.message || "Something went wrong");
+            const result = await response.json();
+            const { questionsCollectionId, ...rest } = result;
+
+            return { rest, questionsCollection: questionsCollectionId };
         } catch (error) {
             Rooms.handleError(error);
         }

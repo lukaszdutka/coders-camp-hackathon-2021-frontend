@@ -11,7 +11,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Prompt, useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { AppContext } from "../../Context";
@@ -57,8 +57,11 @@ export const Meeting = () => {
                 clearInterval(interval);
             };
         }, 2000);
+        const unsubscribeHistory = history.listen(beforeRouteChange);
+
         return () => {
             clearInterval(interval);
+            unsubscribeHistory();
         };
     }, [roomId, token]);
 
@@ -67,13 +70,17 @@ export const Meeting = () => {
             let roomResponse = await Rooms.getRoomById(roomId, token);
 
             setRoom(roomResponse);
-            setQuestionCollection(roomResponse.questionsCollectionId); //Note: its named "id" but it's whole object XD
+            setQuestionCollection(roomResponse.questionsCollection);
             setGuests(roomResponse.guests);
 
             return roomResponse;
         };
         fetchRoom();
     }, [roomId, token]);
+
+    const beforeRouteChange = () => {
+        Rooms.closeRoom(roomId, token);
+    };
 
     const listQuestions = () => {
         if (!questionCollection.questions || questionCollection.questions.length === 0) {
@@ -106,10 +113,13 @@ export const Meeting = () => {
         }
     };
 
-    const closeRoom = () => {
-        Rooms.closeRoom(roomId, token);
+    const leaveRoom = () => {
         history.push(`/summary/${roomId}`);
     };
+
+    function navigateOutOfRoom() {
+        return "Room will be closed.";
+    }
 
     return (
         <Container maxWidth="lg" className={classes.smallPadding}>
@@ -124,7 +134,7 @@ export const Meeting = () => {
                         style={{ marginTop: "10px", marginLeft: "33%" }}
                         variant={"outlined"}
                         color={"primary"}
-                        onClick={closeRoom}
+                        onClick={leaveRoom}
                     >
                         Close room
                     </Button>
@@ -155,12 +165,11 @@ export const Meeting = () => {
                     </Paper>
                 </Grid>
             </Grid>
+            <Prompt when={true} message={navigateOutOfRoom} />
         </Container>
     );
 };
 
 Meeting.propTypes = {
     roomId: PropTypes.string,
-    // formError: PropTypes.string,
-    // loading: PropTypes.bool,
 };
