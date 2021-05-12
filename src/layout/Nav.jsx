@@ -30,12 +30,12 @@ export const Nav = () => {
     const handleLogout = () => {
         clearProfile();
         clearToken();
-        history.push("/")
+        history.push("/");
     };
 
     const handleToMainPage = () => {
-        history.push("/")
-    }
+        history.push("/");
+    };
 
     return (
         <div className={classes.rootNav}>

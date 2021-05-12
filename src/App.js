@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
     rootApp: {
         minHeight: "100vh",
         width: "100vw",
-        display: "flex", 
-        flexDirection: "column"
+        display: "flex",
+        flexDirection: "column",
     },
 }));
 

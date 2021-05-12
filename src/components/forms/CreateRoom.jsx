@@ -15,14 +15,14 @@ import { useFormik } from "formik";
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
 import { Collections } from "../../api/collections";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const validationSchema = yup.object({
     roomName: yup.string("Enter room name").required("Name of room is required"),
 });
 const useStyles = makeStyles(() => ({
     padding: {
-        padding: "15px"
+        padding: "15px",
     },
 }));
 
@@ -36,7 +36,10 @@ export const CreateRoom = ({ handleClosePopup }) => {
     const onSubmit = async (values) => {
         setError(<CircularProgress />);
         const result = await Rooms.createRoom(
-            { name: values.roomName, questionsCollectionId: values.collectionsSelect },
+            {
+                name: values.roomName,
+                questionsCollectionId: values.collectionsSelect === "None" ? "" : values.collectionsSelect,
+            },
             token,
         );
         if (!result.error) {
