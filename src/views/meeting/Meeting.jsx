@@ -1,4 +1,3 @@
-import "../../App.css";
 import {
     Button,
     Container,
@@ -12,11 +11,13 @@ import {
     Typography,
 } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { QuestionListItem } from "../inputs";
+
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
-import { useHistory, useParams } from "react-router-dom";
+import { QuestionListItem } from "../../components/inputs";
+import "../../App.css";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,17 +35,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const MeetingView = () => {
-    // export const MeetingView = () => {
-    //     const roomId = "6083c31a612ed37248485983";
+export const Meeting = () => {
     const { id } = useParams();
     const roomId = id;
-
     const history = useHistory();
-
     const classes = useStyles();
     const { token } = useContext(AppContext);
-
     const [room, setRoom] = useState({});
     const [questionCollection, setQuestionCollection] = useState({});
     const [guests, setGuests] = useState([]);
@@ -163,7 +159,7 @@ export const MeetingView = () => {
     );
 };
 
-MeetingView.propTypes = {
+Meeting.propTypes = {
     roomId: PropTypes.string,
     // formError: PropTypes.string,
     // loading: PropTypes.bool,
