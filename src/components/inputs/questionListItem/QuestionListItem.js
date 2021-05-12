@@ -6,19 +6,19 @@ import { useContext, useEffect, useState } from "react";
 import { Rooms } from "../../../api/rooms";
 import { AppContext } from "../../../Context";
 
-export const QuestionListItem = ({ question, roomId }) => {
+export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQuestionActive }) => {
     const { token } = useContext(AppContext);
 
     const defaultTime = question.timeForAnswer !== undefined ? question.timeForAnswer : 10;
     const [seconds, setSeconds] = useState(defaultTime);
     const [counter, setCounter] = useState(defaultTime);
-    const [isActive, setIsActive] = useState(false);
+    const [hasBeenSent, setHasBeenSent] = useState(false);
     const [isGrayedOut, setIsGrayedOut] = useState(false);
 
     useEffect(() => {
         let intervalId;
 
-        if (isActive) {
+        if (hasBeenSent) {
             intervalId = setInterval(() => {
                 setSeconds(counter);
                 setCounter((counter) => counter - 1);
@@ -26,18 +26,21 @@ export const QuestionListItem = ({ question, roomId }) => {
         }
 
         if (counter === -1) {
-            setIsActive(false);
+            setHasBeenSent(false);
+            setIsQuestionActive(false);
             setIsGrayedOut(true);
         }
 
         return () => clearInterval(intervalId);
-    }, [isActive, counter]);
+    }, [hasBeenSent, counter]);
 
     const itemClicked = () => {
-        if (!isActive) {
+        if (!hasBeenSent && !isQuestionActive) {
+            console.log(hasBeenSent, isQuestionActive);
             Rooms.pushActiveQuestion(roomId, { selectedQuestionId: question._id }, token);
+            setIsQuestionActive(true);
+            setHasBeenSent(true);
         }
-        setIsActive(true);
     };
 
     const listAnswers = () => {
@@ -52,7 +55,7 @@ export const QuestionListItem = ({ question, roomId }) => {
     };
 
     return (
-        <ListItem disabled={isGrayedOut} button onClick={itemClicked}>
+        <ListItem disabled={isGrayedOut || hasBeenSent} button onClick={itemClicked}>
             <ListItemIcon>
                 <QuestionAnswerIcon />
             </ListItemIcon>
@@ -65,7 +68,12 @@ export const QuestionListItem = ({ question, roomId }) => {
             {seconds}
             <ListItemSecondaryAction>
                 <Tooltip title={"Ask this question"}>
-                    <IconButton disabled={isGrayedOut} edge="end" aria-label="delete" onClick={itemClicked}>
+                    <IconButton
+                        disabled={hasBeenSent || isQuestionActive || isGrayedOut}
+                        edge="end"
+                        aria-label="delete"
+                        onClick={itemClicked}
+                    >
                         <SendIcon />
                     </IconButton>
                 </Tooltip>
@@ -77,4 +85,6 @@ export const QuestionListItem = ({ question, roomId }) => {
 QuestionListItem.propTypes = {
     question: PropTypes.object.isRequired,
     roomId: PropTypes.string.isRequired,
+    isQuestionActive: PropTypes.bool.isRequired,
+    setIsQuestionActive: PropTypes.func.isRequired,
 };

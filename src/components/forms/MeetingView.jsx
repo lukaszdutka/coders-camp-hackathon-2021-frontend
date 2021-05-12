@@ -48,6 +48,7 @@ export const MeetingView = () => {
     const [room, setRoom] = useState({});
     const [questionCollection, setQuestionCollection] = useState({});
     const [guests, setGuests] = useState([]);
+    const [isQuestionActive, setIsQuestionActive] = useState(false);
 
     useEffect(() => {
         let interval = setInterval(async () => {
@@ -83,7 +84,15 @@ export const MeetingView = () => {
             return <ListItem> There are no questions </ListItem>;
         }
         return questionCollection.questions.map((question) => {
-            return <QuestionListItem key={question._id} question={question} roomId={roomId} />;
+            return (
+                <QuestionListItem
+                    key={question._id}
+                    isQuestionActive={isQuestionActive}
+                    setIsQuestionActive={setIsQuestionActive}
+                    question={question}
+                    roomId={roomId}
+                />
+            );
         });
     };
 
