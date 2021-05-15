@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { Rooms } from "../../../api/rooms";
 import { AppContext } from "../../../Context";
+import "./style.css";
 
 export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQuestionActive }) => {
     const { token } = useContext(AppContext);
@@ -72,17 +73,7 @@ export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQues
             <ListItemSecondaryAction>
                 <Tooltip title={"Ask this question"}>
                     <IconButton edge="end" aria-label="send" onClick={itemClicked}>
-                        {hasBeenSent && !isGrayedOut ? (
-                            <StopIcon />
-                        ) : (
-                            <SendIcon
-                                style={
-                                    isGrayedOut || (isQuestionActive && !hasBeenSent)
-                                        ? { color: "rgba(0, 0, 0, 0.54)", opacity: 0.5 }
-                                        : {}
-                                }
-                            />
-                        )}
+                        {hasBeenSent && !isGrayedOut ? <StopIcon /> : <SendIcon />}
                     </IconButton>
                 </Tooltip>
             </ListItemSecondaryAction>
