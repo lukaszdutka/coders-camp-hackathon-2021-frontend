@@ -1,6 +1,7 @@
 import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Tooltip } from "@material-ui/core";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import SendIcon from "@material-ui/icons/Send";
+import StopIcon from "@material-ui/icons/Stop";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { Rooms } from "../../../api/rooms";
@@ -25,10 +26,11 @@ export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQues
             }, 1000);
         }
 
-        if (counter === -1) {
+        if (counter <= -1) {
             setHasBeenSent(false);
             setIsQuestionActive(false);
             setIsGrayedOut(true);
+            setSeconds(0);
         }
 
         return () => clearInterval(intervalId);
@@ -39,6 +41,8 @@ export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQues
             Rooms.pushActiveQuestion(roomId, { selectedQuestionId: question._id }, token);
             setIsQuestionActive(true);
             setHasBeenSent(true);
+        } else if (hasBeenSent && isQuestionActive) {
+            setCounter(-1);
         }
     };
 
@@ -54,7 +58,7 @@ export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQues
     };
 
     return (
-        <ListItem disabled={isGrayedOut || hasBeenSent} button onClick={itemClicked}>
+        <ListItem disabled={isGrayedOut || (isQuestionActive && !hasBeenSent)} button onClick={itemClicked}>
             <ListItemIcon>
                 <QuestionAnswerIcon />
             </ListItemIcon>
@@ -67,13 +71,18 @@ export const QuestionListItem = ({ question, roomId, isQuestionActive, setIsQues
             {seconds}
             <ListItemSecondaryAction>
                 <Tooltip title={"Ask this question"}>
-                    <IconButton
-                        disabled={hasBeenSent || isQuestionActive || isGrayedOut}
-                        edge="end"
-                        aria-label="delete"
-                        onClick={itemClicked}
-                    >
-                        <SendIcon />
+                    <IconButton edge="end" aria-label="send" onClick={itemClicked}>
+                        {hasBeenSent && !isGrayedOut ? (
+                            <StopIcon />
+                        ) : (
+                            <SendIcon
+                                style={
+                                    isGrayedOut || (isQuestionActive && !hasBeenSent)
+                                        ? { color: "rgba(0, 0, 0, 0.54)", opacity: 0.5 }
+                                        : {}
+                                }
+                            />
+                        )}
                     </IconButton>
                 </Tooltip>
             </ListItemSecondaryAction>
