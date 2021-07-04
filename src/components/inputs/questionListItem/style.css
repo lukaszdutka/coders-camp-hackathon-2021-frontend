@@ -1,0 +1,8 @@
+.Mui-disabled ~ * path {
+    color: rgba(0, 0, 0, 0.54);
+    opacity: 0.5;
+}
+
+.Mui-disabled ~ * button {
+    cursor: default;
+}

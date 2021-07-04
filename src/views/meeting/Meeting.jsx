@@ -1,4 +1,3 @@
-import "../../App.css";
 import {
     Button,
     Container,
@@ -12,11 +11,13 @@ import {
     Typography,
 } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
+import { Prompt, useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { QuestionListItem } from "../inputs";
+
 import { AppContext } from "../../Context";
 import { Rooms } from "../../api/rooms";
-import { useHistory, useParams } from "react-router-dom";
+import { QuestionListItem } from "../../components/inputs";
+import "../../App.css";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,20 +35,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const MeetingView = () => {
-    // export const MeetingView = () => {
-    //     const roomId = "6083c31a612ed37248485983";
+export const Meeting = () => {
     const { id } = useParams();
     const roomId = id;
-
     const history = useHistory();
-
     const classes = useStyles();
     const { token } = useContext(AppContext);
-
     const [room, setRoom] = useState({});
     const [questionCollection, setQuestionCollection] = useState({});
     const [guests, setGuests] = useState([]);
+    const [isQuestionActive, setIsQuestionActive] = useState(false);
 
     useEffect(() => {
         let interval = setInterval(async () => {
@@ -60,8 +57,11 @@ export const MeetingView = () => {
                 clearInterval(interval);
             };
         }, 2000);
+        const unsubscribeHistory = history.listen(beforeRouteChange);
+
         return () => {
             clearInterval(interval);
+            unsubscribeHistory();
         };
     }, [roomId, token]);
 
@@ -70,7 +70,7 @@ export const MeetingView = () => {
             let roomResponse = await Rooms.getRoomById(roomId, token);
 
             setRoom(roomResponse);
-            setQuestionCollection(roomResponse.questionsCollectionId); //Note: its named "id" but it's whole object XD
+            setQuestionCollection(roomResponse.questionsCollection);
             setGuests(roomResponse.guests);
 
             return roomResponse;
@@ -78,12 +78,24 @@ export const MeetingView = () => {
         fetchRoom();
     }, [roomId, token]);
 
+    const beforeRouteChange = () => {
+        Rooms.closeRoom(roomId, token);
+    };
+
     const listQuestions = () => {
         if (!questionCollection.questions || questionCollection.questions.length === 0) {
             return <ListItem> There are no questions </ListItem>;
         }
         return questionCollection.questions.map((question) => {
-            return <QuestionListItem key={question._id} question={question} roomId={roomId} />;
+            return (
+                <QuestionListItem
+                    key={question._id}
+                    isQuestionActive={isQuestionActive}
+                    setIsQuestionActive={setIsQuestionActive}
+                    question={question}
+                    roomId={roomId}
+                />
+            );
         });
     };
 
@@ -101,10 +113,13 @@ export const MeetingView = () => {
         }
     };
 
-    const closeRoom = () => {
-        Rooms.closeRoom(roomId, token);
+    const leaveRoom = () => {
         history.push(`/summary/${roomId}`);
     };
+
+    function navigateOutOfRoom() {
+        return "Room will be closed.";
+    }
 
     return (
         <Container maxWidth="lg" className={classes.smallPadding}>
@@ -119,7 +134,7 @@ export const MeetingView = () => {
                         style={{ marginTop: "10px", marginLeft: "33%" }}
                         variant={"outlined"}
                         color={"primary"}
-                        onClick={closeRoom}
+                        onClick={leaveRoom}
                     >
                         Close room
                     </Button>
@@ -150,12 +165,11 @@ export const MeetingView = () => {
                     </Paper>
                 </Grid>
             </Grid>
+            <Prompt when={true} message={navigateOutOfRoom} />
         </Container>
     );
 };
 
-MeetingView.propTypes = {
+Meeting.propTypes = {
     roomId: PropTypes.string,
-    // formError: PropTypes.string,
-    // loading: PropTypes.bool,
 };
